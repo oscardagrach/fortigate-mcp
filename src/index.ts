@@ -1246,11 +1246,186 @@ server.tool(
 
 server.tool(
   'get_dns_database',
-  'List DNS database zones (local DNS entries)',
+  'List all DNS database zones (local DNS entries)',
   { vdom: z.string().optional().describe('Virtual domain name (optional)') },
   async ({ vdom }) => {
     try {
       return result(await client.getDnsDatabase(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_dns_database_zone',
+  'Get a specific DNS database zone by name, including all its DNS entries',
+  {
+    name: z.string().describe('DNS zone name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getDnsDatabaseZone(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_dns_database_zone',
+  'Create a new DNS database zone',
+  {
+    name: z.string().describe('DNS zone name'),
+    domain: z.string().describe('Domain name for the zone (e.g., example.com)'),
+    type: z.enum(['master', 'slave', 'forwarder']).describe('Zone type'),
+    view: z.enum(['shadow', 'public', 'shadow-public']).optional().describe('Zone view (default: shadow)'),
+    ip_master: z.string().optional().describe('IP of master DNS server (required for slave zones)'),
+    authoritative: z.enum(['enable', 'disable']).optional().describe('Enable/disable authoritative for this zone'),
+    source_ip: z.string().optional().describe('Source IP for forwarding/transfer'),
+    ttl: z.number().optional().describe('Default TTL for the zone (seconds)'),
+    dns_entries: z
+      .array(
+        z.object({
+          type: z.enum(['A', 'AAAA', 'CNAME', 'MX', 'NS', 'PTR', 'TXT', 'SRV']).describe('Record type'),
+          hostname: z.string().describe('Hostname'),
+          ip: z.string().optional().describe('IPv4 address (for A records)'),
+          ipv6: z.string().optional().describe('IPv6 address (for AAAA records)'),
+          canonical_name: z.string().optional().describe('Canonical name (for CNAME records)'),
+          preference: z.number().optional().describe('MX preference value'),
+          ttl: z.number().optional().describe('TTL for this entry (seconds)'),
+          status: z.enum(['enable', 'disable']).optional().describe('Entry status'),
+        })
+      )
+      .optional()
+      .describe('Initial DNS entries to create with the zone'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, domain, type, view, ip_master, authoritative, source_ip, ttl, dns_entries, vdom }) => {
+    try {
+      const zone: Record<string, unknown> = { name, domain, type };
+      if (view) zone.view = view;
+      if (ip_master) zone['ip-master'] = ip_master;
+      if (authoritative) zone.authoritative = authoritative;
+      if (source_ip) zone['source-ip'] = source_ip;
+      if (ttl !== undefined) zone.ttl = ttl;
+      if (dns_entries) {
+        zone['dns-entry'] = dns_entries.map((entry) => {
+          const e: Record<string, unknown> = { type: entry.type, hostname: entry.hostname };
+          if (entry.ip) e.ip = entry.ip;
+          if (entry.ipv6) e.ipv6 = entry.ipv6;
+          if (entry.canonical_name) e['canonical-name'] = entry.canonical_name;
+          if (entry.preference !== undefined) e.preference = entry.preference;
+          if (entry.ttl !== undefined) e.ttl = entry.ttl;
+          if (entry.status) e.status = entry.status;
+          return e;
+        });
+      }
+      return result(await client.createDnsDatabaseZone(zone, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_dns_database_zone',
+  'Update an existing DNS database zone',
+  {
+    name: z.string().describe('DNS zone name to update'),
+    updates: z
+      .record(z.unknown())
+      .describe('Key-value pairs of fields to update (e.g., {"domain": "new.example.com", "ttl": 3600})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateDnsDatabaseZone(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_dns_database_zone',
+  'Delete a DNS database zone and all its entries',
+  {
+    name: z.string().describe('DNS zone name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteDnsDatabaseZone(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_dns_entry',
+  'Add a DNS entry (record) to an existing DNS database zone',
+  {
+    zone_name: z.string().describe('DNS zone name to add the entry to'),
+    type: z.enum(['A', 'AAAA', 'CNAME', 'MX', 'NS', 'PTR', 'TXT', 'SRV']).describe('DNS record type'),
+    hostname: z.string().describe('Hostname for the entry'),
+    ip: z.string().optional().describe('IPv4 address (for A records)'),
+    ipv6: z.string().optional().describe('IPv6 address (for AAAA records)'),
+    canonical_name: z.string().optional().describe('Canonical name (for CNAME records)'),
+    preference: z.number().optional().describe('MX preference value'),
+    ttl: z.number().optional().describe('TTL for this entry (seconds)'),
+    status: z.enum(['enable', 'disable']).optional().describe('Entry status'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ zone_name, type, hostname, ip, ipv6, canonical_name, preference, ttl, status, vdom }) => {
+    try {
+      const entry: Record<string, unknown> = { type, hostname };
+      if (ip) entry.ip = ip;
+      if (ipv6) entry.ipv6 = ipv6;
+      if (canonical_name) entry['canonical-name'] = canonical_name;
+      if (preference !== undefined) entry.preference = preference;
+      if (ttl !== undefined) entry.ttl = ttl;
+      if (status) entry.status = status;
+      return result(await client.createDnsEntry(zone_name, entry, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_dns_entry',
+  'Update an existing DNS entry in a DNS database zone',
+  {
+    zone_name: z.string().describe('DNS zone name containing the entry'),
+    entry_id: z.number().describe('DNS entry ID to update (use get_dns_database_zone to find IDs)'),
+    updates: z
+      .record(z.unknown())
+      .describe('Key-value pairs of fields to update (e.g., {"ip": "10.0.0.2", "ttl": 600})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ zone_name, entry_id, updates, vdom }) => {
+    try {
+      return result(await client.updateDnsEntry(zone_name, entry_id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_dns_entry',
+  'Delete a DNS entry from a DNS database zone',
+  {
+    zone_name: z.string().describe('DNS zone name containing the entry'),
+    entry_id: z.number().describe('DNS entry ID to delete (use get_dns_database_zone to find IDs)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ zone_name, entry_id, vdom }) => {
+    try {
+      return result(await client.deleteDnsEntry(zone_name, entry_id, vdom));
     } catch (e) {
       return errorResult(e);
     }

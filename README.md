@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 94 tools covering system management, firewall policies, routing, VPN, security profiles, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 101 tools covering system management, firewall policies, routing, VPN, security profiles, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (94)
+## Available Tools (101)
 
 ### System
 
@@ -260,7 +260,14 @@ npm run dev
 |---|---|
 | `get_dns_settings` | Get DNS server configuration |
 | `update_dns_settings` | Update DNS server settings (primary, secondary, domain) |
-| `get_dns_database` | List DNS database zones (local DNS entries) |
+| `get_dns_database` | List all DNS database zones |
+| `get_dns_database_zone` | Get a specific DNS zone by name (includes all entries) |
+| `create_dns_database_zone` | Create a new DNS zone (master/slave/forwarder) with optional initial entries |
+| `update_dns_database_zone` | Update an existing DNS zone's properties |
+| `delete_dns_database_zone` | Delete a DNS zone and all its entries |
+| `create_dns_entry` | Add a DNS record (A, AAAA, CNAME, MX, NS, PTR, TXT, SRV) to a zone |
+| `update_dns_entry` | Update an existing DNS entry by zone name and entry ID |
+| `delete_dns_entry` | Delete a DNS entry from a zone by entry ID |
 
 ### Network
 

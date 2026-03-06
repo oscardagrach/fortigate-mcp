@@ -612,6 +612,78 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/cmdb/system/dns-database', undefined, params);
   }
 
+  async getDnsDatabaseZone(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'GET',
+      `/api/v2/cmdb/system/dns-database/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  async createDnsDatabaseZone(zone: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/system/dns-database', zone, params);
+  }
+
+  async updateDnsDatabaseZone(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'PUT',
+      `/api/v2/cmdb/system/dns-database/${encodeURIComponent(name)}`,
+      updates,
+      params
+    );
+  }
+
+  async deleteDnsDatabaseZone(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'DELETE',
+      `/api/v2/cmdb/system/dns-database/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  async createDnsEntry(zoneName: string, entry: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'POST',
+      `/api/v2/cmdb/system/dns-database/${encodeURIComponent(zoneName)}/dns-entry`,
+      entry,
+      params
+    );
+  }
+
+  async updateDnsEntry(zoneName: string, entryId: number, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'PUT',
+      `/api/v2/cmdb/system/dns-database/${encodeURIComponent(zoneName)}/dns-entry/${entryId}`,
+      updates,
+      params
+    );
+  }
+
+  async deleteDnsEntry(zoneName: string, entryId: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'DELETE',
+      `/api/v2/cmdb/system/dns-database/${encodeURIComponent(zoneName)}/dns-entry/${entryId}`,
+      undefined,
+      params
+    );
+  }
+
   // ─── Traffic Shaping ──────────────────────────────────────
 
   async getTrafficShapers(vdom?: string) {
