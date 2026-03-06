@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 82 tools covering system management, firewall policies, routing, VPN, security profiles, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 94 tools covering system management, firewall policies, routing, VPN, security profiles, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (82)
+## Available Tools (94)
 
 ### System
 
@@ -174,14 +174,38 @@ npm run dev
 | `update_static_route` | Update an existing static route by ID |
 | `delete_static_route` | Delete a static route by ID |
 
-### Dynamic Routing
+### BGP
 
 | Tool | Description |
 |---|---|
 | `get_bgp_config` | Get BGP configuration (neighbors, networks) |
-| `get_bgp_neighbors` | Get BGP neighbor/peer status and learned paths |
+| `get_bgp_paths` | Get BGP learned/advertised route paths |
+| `get_bgp_neighbors_status` | Get BGP neighbor status (state, uptime, prefixes received) |
+| `get_bgp_networks` | List BGP network entries being advertised |
+| `get_bgp_redistribute` | Get BGP route redistribution settings |
+| `update_bgp_config` | Update BGP config (router-id, AS, neighbors, networks) |
+
+### OSPF
+
+| Tool | Description |
+|---|---|
 | `get_ospf_config` | Get OSPF configuration (areas, interfaces) |
 | `get_ospf_neighbors` | Get OSPF neighbor adjacency status |
+| `update_ospf_config` | Update OSPF config (router-id, areas, redistribute) |
+
+### Route Policy
+
+| Tool | Description |
+|---|---|
+| `get_prefix_lists` | List all router prefix lists |
+| `get_route_maps` | List all router route maps |
+| `get_community_lists` | List all BGP community lists |
+
+### Firewall Policy Statistics
+
+| Tool | Description |
+|---|---|
+| `get_policy_stats` | Get policy hit counts, byte/packet stats, last-used timestamps |
 
 ### SD-WAN
 
@@ -190,6 +214,9 @@ npm run dev
 | `get_sdwan_config` | Get SD-WAN configuration (members, health checks, rules) |
 | `get_sdwan_health_check` | Get SD-WAN health check status |
 | `get_sdwan_members` | Get SD-WAN member interface status and statistics |
+| `get_sdwan_sla_log` | Get SLA performance log for a health check (latency, jitter, loss over time) |
+| `get_sdwan_zones` | List SD-WAN zone configurations and member interfaces |
+| `update_sdwan_config` | Update SD-WAN settings (status, load-balance-mode, etc.) |
 
 ### VPN
 

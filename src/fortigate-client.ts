@@ -422,6 +422,22 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/monitor/virtual-wan/members');
   }
 
+  async getSdwanSlaLog(sla: string) {
+    return this.request('GET', `/api/v2/monitor/virtual-wan/sla-log`, undefined, { sla });
+  }
+
+  async getSdwanZones(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/sdwan/zone', undefined, params);
+  }
+
+  async updateSdwan(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/system/sdwan', updates, params);
+  }
+
   // ─── Security Profiles ───────────────────────────────────
 
   async getWebFilterProfiles(vdom?: string) {
@@ -468,8 +484,48 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/cmdb/router/bgp', undefined, params);
   }
 
-  async getBgpNeighbors() {
+  async getBgpPaths() {
     return this.request('GET', '/api/v2/monitor/router/bgp/paths');
+  }
+
+  async getBgpNeighborsStatus() {
+    return this.request('GET', '/api/v2/monitor/router/bgp/neighbors');
+  }
+
+  async getBgpNetworks(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/bgp/network', undefined, params);
+  }
+
+  async getBgpRedistribute(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/bgp/redistribute', undefined, params);
+  }
+
+  async updateBgpConfig(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/router/bgp', updates, params);
+  }
+
+  async getPrefixLists(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/prefix-list', undefined, params);
+  }
+
+  async getRouteMaps(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/route-map', undefined, params);
+  }
+
+  async getCommunityLists(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/community-list', undefined, params);
   }
 
   async getOspfConfig(vdom?: string) {
@@ -480,6 +536,20 @@ export class FortigateClient {
 
   async getOspfNeighbors() {
     return this.request('GET', '/api/v2/monitor/router/ospf/neighbors');
+  }
+
+  async updateOspfConfig(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/router/ospf', updates, params);
+  }
+
+  async getRoutingTableAll() {
+    return this.request('GET', '/api/v2/monitor/router/ipv4', undefined, { count: '0' });
+  }
+
+  async getPolicyStats() {
+    return this.request('GET', '/api/v2/monitor/firewall/policy');
   }
 
   // ─── SNMP ─────────────────────────────────────────────────

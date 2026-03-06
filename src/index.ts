@@ -815,6 +815,60 @@ server.tool('get_sdwan_members', 'Get SD-WAN member interface status and statist
   }
 });
 
+server.tool(
+  'get_sdwan_sla_log',
+  'Get SD-WAN SLA performance log for a specific health check (latency, jitter, packet loss over time)',
+  { sla: z.string().describe('Health check name (e.g., Default_DNS, Default_Google)') },
+  async ({ sla }) => {
+    try {
+      return result(await client.getSdwanSlaLog(sla));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_sdwan_zones',
+  'List SD-WAN zone configurations and member interfaces',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSdwanZones(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_sdwan_config',
+  'Update SD-WAN configuration (status, load-balance-mode, health checks, etc.)',
+  {
+    updates: z
+      .record(z.unknown())
+      .describe('Key-value pairs to update (e.g., {"status": "enable", "load-balance-mode": "source-ip-based"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateSdwan(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Firewall Policy Statistics ─────────────────────────────
+
+server.tool('get_policy_stats', 'Get firewall policy hit counts, byte/packet statistics, and last-used timestamps', {}, async () => {
+  try {
+    return result(await client.getPolicyStats());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
 // ─── Security Profile Tools ──────────────────────────────────
 
 server.tool(
@@ -910,13 +964,106 @@ server.tool(
   }
 );
 
-server.tool('get_bgp_neighbors', 'Get BGP neighbor/peer status and learned paths', {}, async () => {
+server.tool('get_bgp_paths', 'Get BGP learned/advertised route paths', {}, async () => {
   try {
-    return result(await client.getBgpNeighbors());
+    return result(await client.getBgpPaths());
   } catch (e) {
     return errorResult(e);
   }
 });
+
+server.tool('get_bgp_neighbors_status', 'Get BGP neighbor status (state, uptime, prefixes received)', {}, async () => {
+  try {
+    return result(await client.getBgpNeighborsStatus());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'get_bgp_networks',
+  'List BGP network entries being advertised',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getBgpNetworks(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_bgp_redistribute',
+  'Get BGP route redistribution settings (connected, static, OSPF, etc.)',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getBgpRedistribute(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_bgp_config',
+  'Update BGP configuration (router-id, AS number, neighbors, networks, etc.)',
+  {
+    updates: z
+      .record(z.unknown())
+      .describe('Key-value pairs to update (e.g., {"as": 65001, "router-id": "10.0.0.1"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateBgpConfig(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Route Policy Tools ─────────────────────────────────────
+
+server.tool(
+  'get_prefix_lists',
+  'List all router prefix lists',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getPrefixLists(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_route_maps',
+  'List all router route maps',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getRouteMaps(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_community_lists',
+  'List all BGP community lists',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getCommunityLists(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
 
 server.tool(
   'get_ospf_config',
@@ -938,6 +1085,24 @@ server.tool('get_ospf_neighbors', 'Get OSPF neighbor adjacency status', {}, asyn
     return errorResult(e);
   }
 });
+
+server.tool(
+  'update_ospf_config',
+  'Update OSPF configuration (router-id, areas, redistribute, etc.)',
+  {
+    updates: z
+      .record(z.unknown())
+      .describe('Key-value pairs to update (e.g., {"router-id": "10.0.0.1", "default-metric": 10})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateOspfConfig(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
 
 // ─── SNMP Tools ───────────────────────────────────────────────
 
