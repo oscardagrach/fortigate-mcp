@@ -1,0 +1,309 @@
+# fortigate-mcp
+
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 82 tools covering system management, firewall policies, routing, VPN, security profiles, monitoring, and more.
+
+## Requirements
+
+- Node.js 18+
+- A FortiGate firewall with REST API access enabled
+- An API token generated on the FortiGate
+
+## Generating a FortiGate API Token
+
+1. Log in to the FortiGate web UI
+2. Go to **System > Administrators**
+3. Create a new REST API Admin or edit an existing one
+4. Under **Administrator Profile**, assign an appropriate profile (e.g., `super_admin` for full access, or a custom read-only profile)
+5. Optionally restrict **Trusted Hosts** to limit API access by source IP
+6. Save and copy the generated API token
+
+## Installation
+
+```bash
+npm install
+npm run build
+```
+
+## Configuration
+
+The server is configured via environment variables:
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `FORTIGATE_HOST` | Yes | - | FortiGate hostname or IP address |
+| `FORTIGATE_API_TOKEN` | Yes | - | REST API token |
+| `FORTIGATE_PORT` | No | `443` | HTTPS port |
+| `FORTIGATE_VERIFY_SSL` | No | `true` | Set to `false` to skip TLS verification (common for self-signed certs) |
+
+## Usage
+
+### With Claude Desktop
+
+Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+
+```json
+{
+  "mcpServers": {
+    "fortigate": {
+      "command": "node",
+      "args": ["/path/to/fortigate-mcp/dist/index.js"],
+      "env": {
+        "FORTIGATE_HOST": "192.168.1.1",
+        "FORTIGATE_API_TOKEN": "your-api-token-here",
+        "FORTIGATE_VERIFY_SSL": "false"
+      }
+    }
+  }
+}
+```
+
+### With Claude Code
+
+Add to your Claude Code MCP settings:
+
+```bash
+claude mcp add fortigate -- node /path/to/fortigate-mcp/dist/index.js
+```
+
+Then set the required environment variables before launching, or configure them in your MCP settings.
+
+### Standalone
+
+```bash
+FORTIGATE_HOST=192.168.1.1 \
+FORTIGATE_API_TOKEN=your-token \
+FORTIGATE_VERIFY_SSL=false \
+npm start
+```
+
+### Development
+
+```bash
+FORTIGATE_HOST=192.168.1.1 \
+FORTIGATE_API_TOKEN=your-token \
+FORTIGATE_VERIFY_SSL=false \
+npm run dev
+```
+
+## Available Tools (82)
+
+### System
+
+| Tool | Description |
+|---|---|
+| `get_system_status` | Get system status (hostname, firmware, serial number) |
+| `get_system_resources` | Get CPU, memory, and disk usage statistics |
+| `get_system_performance` | Get system performance metrics |
+| `get_global_settings` | Get system global settings (admin port, timezone, language) |
+| `update_global_settings` | Update system global settings (hostname, timezone, admin ports) |
+| `get_vdoms` | List all virtual domains (VDOMs) |
+| `get_admins` | List system administrator accounts |
+| `get_admin_profiles` | List admin access profiles (permissions) |
+| `get_firmware_versions` | Check available firmware versions |
+| `get_certificates` | List installed local certificates |
+| `get_license_status` | Get FortiGuard license and subscription status |
+| `get_config_backup` | Download the full configuration backup |
+
+### Interfaces
+
+| Tool | Description |
+|---|---|
+| `get_interfaces` | List all network interfaces with config and status |
+| `get_interface` | Get details for a specific interface |
+| `update_interface` | Update interface configuration (IP, allowaccess, alias, etc.) |
+| `get_interface_stats` | Get real-time interface traffic statistics and link status |
+| `get_zones` | List all system zones and their interface members |
+
+### Firewall Policies
+
+| Tool | Description |
+|---|---|
+| `get_firewall_policies` | List all firewall policies |
+| `get_firewall_policy` | Get a specific policy by ID |
+| `create_firewall_policy` | Create a new firewall policy |
+| `update_firewall_policy` | Update an existing policy by ID |
+| `delete_firewall_policy` | Delete a policy by ID |
+
+### Address Objects
+
+| Tool | Description |
+|---|---|
+| `get_addresses` | List all firewall address objects |
+| `get_address` | Get a specific address object by name |
+| `create_address` | Create a new address object (ipmask, iprange, or fqdn) |
+| `update_address` | Update an existing address object by name |
+| `delete_address` | Delete an address object by name |
+| `get_address_groups` | List all firewall address groups |
+
+### Services
+
+| Tool | Description |
+|---|---|
+| `get_services` | List all custom firewall service objects |
+| `get_service_groups` | List all firewall service groups |
+
+### Firewall Schedules
+
+| Tool | Description |
+|---|---|
+| `get_schedules_recurring` | List all recurring firewall schedules |
+| `get_schedules_onetime` | List all one-time firewall schedules |
+
+### Virtual IPs (DNAT / Port Forwarding)
+
+| Tool | Description |
+|---|---|
+| `get_vips` | List all VIP objects |
+| `get_vip` | Get a specific VIP by name |
+| `create_vip` | Create a VIP for DNAT / port forwarding |
+| `delete_vip` | Delete a VIP by name |
+
+### IP Pools (SNAT)
+
+| Tool | Description |
+|---|---|
+| `get_ip_pools` | List all IP pools used for source NAT |
+
+### Routing
+
+| Tool | Description |
+|---|---|
+| `get_routing_table` | Get the active routing table (IPv4) |
+| `get_static_routes` | List all configured static routes |
+| `create_static_route` | Create a new static route |
+| `update_static_route` | Update an existing static route by ID |
+| `delete_static_route` | Delete a static route by ID |
+
+### Dynamic Routing
+
+| Tool | Description |
+|---|---|
+| `get_bgp_config` | Get BGP configuration (neighbors, networks) |
+| `get_bgp_neighbors` | Get BGP neighbor/peer status and learned paths |
+| `get_ospf_config` | Get OSPF configuration (areas, interfaces) |
+| `get_ospf_neighbors` | Get OSPF neighbor adjacency status |
+
+### SD-WAN
+
+| Tool | Description |
+|---|---|
+| `get_sdwan_config` | Get SD-WAN configuration (members, health checks, rules) |
+| `get_sdwan_health_check` | Get SD-WAN health check status |
+| `get_sdwan_members` | Get SD-WAN member interface status and statistics |
+
+### VPN
+
+| Tool | Description |
+|---|---|
+| `get_ipsec_vpn_status` | Get IPsec VPN tunnel status and statistics |
+| `get_ipsec_phase1` | List IPsec Phase 1 interface configurations |
+| `get_ipsec_phase2` | List IPsec Phase 2 interface configurations |
+| `get_ssl_vpn_status` | Get SSL VPN sessions and connected users |
+| `get_ssl_vpn_settings` | Get SSL VPN server settings |
+
+### Security Profiles
+
+| Tool | Description |
+|---|---|
+| `get_webfilter_profiles` | List all web filter profiles |
+| `get_antivirus_profiles` | List all antivirus profiles |
+| `get_ips_sensors` | List all IPS sensor profiles |
+| `get_application_lists` | List all application control profiles |
+| `get_dnsfilter_profiles` | List all DNS filter profiles |
+| `get_ssl_ssh_profiles` | List all SSL/SSH inspection profiles |
+
+### Users
+
+| Tool | Description |
+|---|---|
+| `get_local_users` | List local user accounts |
+| `get_user_groups` | List user groups |
+| `get_banned_users` | List currently banned user IPs |
+
+### DHCP
+
+| Tool | Description |
+|---|---|
+| `get_dhcp_leases` | List all DHCP leases across interfaces |
+| `get_dhcp_servers` | List all DHCP server configurations |
+
+### DNS
+
+| Tool | Description |
+|---|---|
+| `get_dns_settings` | Get DNS server configuration |
+| `update_dns_settings` | Update DNS server settings (primary, secondary, domain) |
+| `get_dns_database` | List DNS database zones (local DNS entries) |
+
+### Network
+
+| Tool | Description |
+|---|---|
+| `get_arp_table` | Get the ARP table (MAC-to-IP mappings) |
+
+### High Availability
+
+| Tool | Description |
+|---|---|
+| `get_ha_status` | Get HA cluster peer status |
+
+### SNMP
+
+| Tool | Description |
+|---|---|
+| `get_snmp_communities` | List SNMP community configurations |
+| `get_snmp_sysinfo` | Get SNMP system information settings |
+| `update_snmp_sysinfo` | Update SNMP system info (contact, location, description) |
+
+### NTP
+
+| Tool | Description |
+|---|---|
+| `get_ntp_settings` | Get NTP time synchronization settings |
+| `update_ntp_settings` | Update NTP settings (sync, interval, server mode) |
+
+### Traffic Shaping
+
+| Tool | Description |
+|---|---|
+| `get_traffic_shapers` | List all traffic shaper profiles |
+| `get_traffic_shaping_policies` | List per-IP traffic shaper policies |
+
+### Logging
+
+| Tool | Description |
+|---|---|
+| `get_traffic_logs` | Get recent traffic (forward) logs |
+| `get_event_logs` | Get recent system event logs |
+| `get_security_logs` | Get recent IPS/UTM security logs |
+
+### Sessions
+
+| Tool | Description |
+|---|---|
+| `get_session_count` | Get firewall session count summary |
+| `get_firewall_sessions` | List active sessions with optional source IP filter |
+
+## VDOM Support
+
+Most tools accept an optional `vdom` parameter to target a specific virtual domain. When omitted, the FortiGate uses its default VDOM (typically `root`).
+
+## SSL/TLS Notes
+
+FortiGate devices commonly use self-signed certificates. Set `FORTIGATE_VERIFY_SSL=false` to bypass certificate verification. This is expected in lab and many production environments.
+
+## Project Structure
+
+```
+fortigate-mcp/
+  src/
+    index.ts              # MCP server - tool definitions and registration
+    fortigate-client.ts   # FortiOS REST API client
+  dist/                   # Compiled output (after build)
+  package.json
+  tsconfig.json
+```
+
+## License
+
+MIT
