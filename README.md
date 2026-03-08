@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 369 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 371 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (369)
+## Available Tools (371)
 
 ### System
 
@@ -824,6 +824,13 @@ npm run dev
 | `get_top_sources` | Get top traffic sources ranked by bytes/packets/sessions |
 | `get_top_destinations` | Get top traffic destinations ranked by bytes/packets/sessions |
 | `get_top_applications` | Get top applications ranked by bytes/packets/sessions |
+
+### Monitor: WiFi Clients
+
+| Tool | Description |
+|---|---|
+| `get_wifi_clients` | List all connected WiFi clients (signal, SSID, IP, traffic) |
+| `get_wifi_client` | Get a specific WiFi client by MAC address |
 
 ### Monitor: FortiSwitch
 

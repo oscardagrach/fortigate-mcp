@@ -5923,6 +5923,39 @@ server.tool(
   }
 );
 
+// ─── Monitor: WiFi Clients ────────────────────────────────
+
+server.tool(
+  'get_wifi_clients',
+  'List all connected WiFi clients with signal, SSID, IP, and traffic info',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getMonitorWifiClients(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wifi_client',
+  'Get a specific WiFi client by MAC address',
+  {
+    mac: z.string().describe('Client MAC address'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ mac, vdom }) => {
+    try {
+      return result(await client.getMonitorWifiClientByMac(mac, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {

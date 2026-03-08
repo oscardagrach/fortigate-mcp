@@ -2464,4 +2464,18 @@ export class FortigateClient {
     if (vdom) params['vdom'] = vdom;
     return this.request('GET', '/api/v2/monitor/firewall/policy/top-applications', undefined, params);
   }
+
+  // ─── Monitor: WiFi Clients ────────────────────────────────
+
+  async getMonitorWifiClients(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/wifi/client', undefined, params);
+  }
+
+  async getMonitorWifiClientByMac(mac: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/monitor/wifi/client/${encodeURIComponent(mac)}`, undefined, params);
+  }
 }
