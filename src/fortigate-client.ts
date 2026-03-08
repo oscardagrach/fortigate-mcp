@@ -2408,4 +2408,37 @@ export class FortigateClient {
     if (vdom) params['vdom'] = vdom;
     return this.request('PUT', '/api/v2/cmdb/wanopt/settings', updates, params);
   }
+
+  // ─── Monitor: FortiSwitch ──────────────────────────────────
+
+  async getMonitorSwitchPorts(serial?: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (serial) params['mkey'] = serial;
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/switch-controller/managed-switch/port-stats', undefined, params);
+  }
+
+  async getMonitorSwitchStatus(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/switch-controller/managed-switch/status', undefined, params);
+  }
+
+  async getMonitorSwitchHealth(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/switch-controller/managed-switch/health', undefined, params);
+  }
+
+  async getMonitorSwitchFaceplate(serial: string, vdom?: string) {
+    const params: Record<string, string> = { mkey: serial };
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/switch-controller/managed-switch/faceplate', undefined, params);
+  }
+
+  async getMonitorSwitchTransceivers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/switch-controller/managed-switch/transceivers', undefined, params);
+  }
 }

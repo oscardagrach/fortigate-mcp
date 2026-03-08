@@ -5794,6 +5794,85 @@ server.tool(
   }
 );
 
+// ─── Monitor: FortiSwitch ──────────────────────────────────
+
+server.tool(
+  'get_switch_port_stats',
+  'Get FortiSwitch port statistics (traffic counters, link status, speed, duplex)',
+  {
+    serial: z.string().optional().describe('Switch serial number (optional, all switches if omitted)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ serial, vdom }) => {
+    try {
+      return result(await client.getMonitorSwitchPorts(serial, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_status',
+  'Get FortiSwitch managed switch status (online/offline, firmware, model)',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getMonitorSwitchStatus(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_health',
+  'Get FortiSwitch health check status',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getMonitorSwitchHealth(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_faceplate',
+  'Get FortiSwitch faceplate/port layout for a specific switch',
+  {
+    serial: z.string().describe('Switch serial number'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ serial, vdom }) => {
+    try {
+      return result(await client.getMonitorSwitchFaceplate(serial, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_transceivers',
+  'Get FortiSwitch transceiver (SFP/SFP+) information',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getMonitorSwitchTransceivers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {
