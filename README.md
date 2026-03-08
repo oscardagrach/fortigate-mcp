@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 292 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 308 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (292)
+## Available Tools (308)
 
 ### System
 
@@ -452,6 +452,62 @@ npm run dev
 | `get_application_lists` | List all application control profiles |
 | `get_dnsfilter_profiles` | List all DNS filter profiles |
 | `get_ssl_ssh_profiles` | List all SSL/SSH inspection profiles |
+
+### WAF (Web Application Firewall)
+
+| Tool | Description |
+|---|---|
+| `get_waf_profiles` | List all WAF profiles |
+| `get_waf_profile` | Get a specific WAF profile by name |
+
+### DLP (Data Leak Prevention)
+
+| Tool | Description |
+|---|---|
+| `get_dlp_sensors` | List all DLP sensor profiles |
+| `get_dlp_sensor` | Get a specific DLP sensor by name |
+| `get_dlp_fp_doc_sources` | List all DLP fingerprint document sources |
+
+### Email Filter
+
+| Tool | Description |
+|---|---|
+| `get_emailfilter_profiles` | List all email filter profiles |
+| `get_emailfilter_profile` | Get a specific email filter profile by name |
+
+### ICAP
+
+| Tool | Description |
+|---|---|
+| `get_icap_servers` | List all ICAP server configurations |
+| `get_icap_profiles` | List all ICAP profiles |
+| `get_icap_profile` | Get a specific ICAP profile by name |
+
+### VoIP
+
+| Tool | Description |
+|---|---|
+| `get_voip_profiles` | List all VoIP/SIP security profiles |
+| `get_voip_profile` | Get a specific VoIP profile by name |
+
+### File Filter
+
+| Tool | Description |
+|---|---|
+| `get_file_filter_profiles` | List all file filter profiles |
+| `get_file_filter_profile` | Get a specific file filter profile by name |
+
+### Video Filter
+
+| Tool | Description |
+|---|---|
+| `get_video_filter_profiles` | List all video filter profiles |
+
+### SCTP Filter
+
+| Tool | Description |
+|---|---|
+| `get_sctp_filter_profiles` | List all SCTP filter profiles |
 
 ### Users
 

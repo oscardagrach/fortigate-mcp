@@ -566,6 +566,118 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/cmdb/firewall/ssl-ssh-profile', undefined, params);
   }
 
+  // ─── WAF ───────────────────────────────────────────────────
+
+  async getWafProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/waf/profile', undefined, params);
+  }
+
+  async getWafProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/waf/profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── DLP ──────────────────────────────────────────────────
+
+  async getDlpSensors(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/dlp/sensor', undefined, params);
+  }
+
+  async getDlpSensor(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/dlp/sensor/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async getDlpFpDocSources(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/dlp/fp-doc-source', undefined, params);
+  }
+
+  // ─── Email Filter ────────────────────────────────────────
+
+  async getEmailFilterProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/emailfilter/profile', undefined, params);
+  }
+
+  async getEmailFilterProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/emailfilter/profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── ICAP ─────────────────────────────────────────────────
+
+  async getIcapServers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/icap/server', undefined, params);
+  }
+
+  async getIcapProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/icap/profile', undefined, params);
+  }
+
+  async getIcapProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/icap/profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── VoIP ─────────────────────────────────────────────────
+
+  async getVoipProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/voip/profile', undefined, params);
+  }
+
+  async getVoipProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/voip/profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── File Filter ──────────────────────────────────────────
+
+  async getFileFilterProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/file-filter/profile', undefined, params);
+  }
+
+  async getFileFilterProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/file-filter/profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── Video Filter ────────────────────────────────────────
+
+  async getVideoFilterProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/videofilter/profile', undefined, params);
+  }
+
+  // ─── SCTP Filter ─────────────────────────────────────────
+
+  async getSctpFilterProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/sctp-filter/profile', undefined, params);
+  }
+
   // ─── Dynamic Routing ─────────────────────────────────────
 
   async getBgpConfig(vdom?: string) {

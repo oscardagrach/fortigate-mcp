@@ -1189,6 +1189,248 @@ server.tool(
   }
 );
 
+// ─── WAF Profile Tools ─────────────────────────────────────
+
+server.tool(
+  'get_waf_profiles',
+  'List all Web Application Firewall profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWafProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_waf_profile',
+  'Get a specific WAF profile by name',
+  {
+    name: z.string().describe('WAF profile name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getWafProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── DLP Tools ─────────────────────────────────────────────
+
+server.tool(
+  'get_dlp_sensors',
+  'List all Data Leak Prevention sensor profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getDlpSensors(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_dlp_sensor',
+  'Get a specific DLP sensor by name',
+  {
+    name: z.string().describe('DLP sensor name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getDlpSensor(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_dlp_fp_doc_sources',
+  'List all DLP fingerprint document sources',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getDlpFpDocSources(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Email Filter Tools ────────────────────────────────────
+
+server.tool(
+  'get_emailfilter_profiles',
+  'List all email filter profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getEmailFilterProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_emailfilter_profile',
+  'Get a specific email filter profile by name',
+  {
+    name: z.string().describe('Email filter profile name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getEmailFilterProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── ICAP Tools ────────────────────────────────────────────
+
+server.tool(
+  'get_icap_servers',
+  'List all ICAP server configurations',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getIcapServers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_icap_profiles',
+  'List all ICAP profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getIcapProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_icap_profile',
+  'Get a specific ICAP profile by name',
+  {
+    name: z.string().describe('ICAP profile name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getIcapProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── VoIP Tools ────────────────────────────────────────────
+
+server.tool(
+  'get_voip_profiles',
+  'List all VoIP/SIP security profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getVoipProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_voip_profile',
+  'Get a specific VoIP profile by name',
+  {
+    name: z.string().describe('VoIP profile name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getVoipProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── File Filter Tools ────────────────────────────────────
+
+server.tool(
+  'get_file_filter_profiles',
+  'List all file filter profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getFileFilterProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_file_filter_profile',
+  'Get a specific file filter profile by name',
+  {
+    name: z.string().describe('File filter profile name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getFileFilterProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Video Filter Tools ───────────────────────────────────
+
+server.tool(
+  'get_video_filter_profiles',
+  'List all video filter profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getVideoFilterProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── SCTP Filter Tools ────────────────────────────────────
+
+server.tool(
+  'get_sctp_filter_profiles',
+  'List all SCTP filter profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSctpFilterProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Dynamic Routing Tools ───────────────────────────────────
 
 server.tool(
