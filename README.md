@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 372 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 375 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (372)
+## Available Tools (375)
 
 ### System
 
@@ -837,6 +837,14 @@ npm run dev
 | Tool | Description |
 |---|---|
 | `get_rogue_aps` | List all detected rogue access points |
+
+### Monitor: Security Rating
+
+| Tool | Description |
+|---|---|
+| `get_security_rating` | Get Security Fabric security rating results and recommendations |
+| `get_security_rating_history` | Get security rating score history over time |
+| `get_security_rating_status` | Get security rating check run status |
 
 ### Monitor: FortiSwitch
 

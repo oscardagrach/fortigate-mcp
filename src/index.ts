@@ -5973,6 +5973,53 @@ server.tool(
   }
 );
 
+// ─── Monitor: Security Rating ─────────────────────────────
+
+server.tool(
+  'get_security_rating',
+  'Get Security Fabric security rating results and recommendations',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSecurityRating(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_security_rating_history',
+  'Get security rating score history over time',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSecurityRatingHistory(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_security_rating_status',
+  'Get security rating check run status (running/finished)',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSecurityRatingStatus(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {

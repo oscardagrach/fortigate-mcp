@@ -2486,4 +2486,24 @@ export class FortigateClient {
     if (vdom) params['vdom'] = vdom;
     return this.request('GET', '/api/v2/monitor/wifi/rogue_ap', undefined, params);
   }
+
+  // ─── Monitor: Security Rating ─────────────────────────────
+
+  async getSecurityRating(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/system/security-rating', undefined, params);
+  }
+
+  async getSecurityRatingHistory(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/system/security-rating/history', undefined, params);
+  }
+
+  async getSecurityRatingStatus(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/system/security-rating/status', undefined, params);
+  }
 }
