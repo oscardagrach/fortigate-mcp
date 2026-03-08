@@ -6020,6 +6020,34 @@ server.tool(
   }
 );
 
+// ─── Monitor: FortiGuard ──────────────────────────────────
+
+server.tool(
+  'get_fortiguard_server_stats',
+  'Get FortiGuard service communication statistics and server list',
+  {},
+  async () => {
+    try {
+      return result(await client.getFortiGuardServerList());
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_fortiguard_update_status',
+  'Get FortiGuard update status (AV, IPS, app control database versions and last update times)',
+  {},
+  async () => {
+    try {
+      return result(await client.getFortiGuardUpdateStatus());
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {

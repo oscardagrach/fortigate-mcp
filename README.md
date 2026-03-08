@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 375 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 377 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (375)
+## Available Tools (377)
 
 ### System
 
@@ -906,6 +906,13 @@ npm run dev
 | `update_wanopt_remote_storage` | Update WAN optimization remote storage settings |
 | `get_wanopt_settings` | Get global WAN optimization settings |
 | `update_wanopt_settings` | Update global WAN optimization settings |
+
+### Monitor: FortiGuard
+
+| Tool | Description |
+|---|---|
+| `get_fortiguard_server_stats` | Get FortiGuard service communication statistics |
+| `get_fortiguard_update_status` | Get FortiGuard update status (AV, IPS, app control versions) |
 
 ## VDOM Support
 

@@ -2506,4 +2506,14 @@ export class FortigateClient {
     if (vdom) params['vdom'] = vdom;
     return this.request('GET', '/api/v2/monitor/system/security-rating/status', undefined, params);
   }
+
+  // ─── Monitor: FortiGuard ──────────────────────────────────
+
+  async getFortiGuardServerList() {
+    return this.request('GET', '/api/v2/monitor/fortiguard/service-communication-stats');
+  }
+
+  async getFortiGuardUpdateStatus() {
+    return this.request('GET', '/api/v2/monitor/fortiguard/update');
+  }
 }

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 375 tools for system management, firewall policies, routing, VPN, security profiles, DNS, monitoring, and more. Runs as a stdio-based MCP server.
+MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 377 tools for system management, firewall policies, routing, VPN, security profiles, DNS, monitoring, and more. Runs as a stdio-based MCP server.
 
 ## Commands
 
@@ -27,7 +27,7 @@ No test framework is configured. No linter is configured.
 
 Two source files in `src/`:
 
-- **`index.ts`** — MCP server entry point. Registers all 375 tools using `McpServer.tool()` from `@modelcontextprotocol/sdk`. Each tool defines its name, description, Zod input schema, and an async handler that calls the client and returns JSON. Uses `result()` / `errorResult()` helpers to format responses.
+- **`index.ts`** — MCP server entry point. Registers all 377 tools using `McpServer.tool()` from `@modelcontextprotocol/sdk`. Each tool defines its name, description, Zod input schema, and an async handler that calls the client and returns JSON. Uses `result()` / `errorResult()` helpers to format responses.
 
 - **`fortigate-client.ts`** — `FortigateClient` class wrapping the FortiOS REST API (v2). All HTTP calls go through a central `request()` method handling auth (`Bearer` token), JSON serialization, and error handling. Uses Node's native `fetch`.
 
