@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 280 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 292 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (280)
+## Available Tools (292)
 
 ### System
 
@@ -516,6 +516,23 @@ npm run dev
 | `create_fsso_server` | Create a new FSSO agent/polling connection |
 | `update_fsso_server` | Update an existing FSSO agent/polling connection |
 | `delete_fsso_server` | Delete an FSSO agent/polling connection by ID |
+
+### Web Proxy
+
+| Tool | Description |
+|---|---|
+| `get_web_proxy_global` | Get global web proxy settings |
+| `update_web_proxy_global` | Update global web proxy settings |
+| `get_web_proxy_explicit` | Get explicit web proxy settings |
+| `update_web_proxy_explicit` | Update explicit web proxy settings |
+| `get_web_proxy_forward_servers` | List all web proxy forward servers |
+| `get_web_proxy_forward_server` | Get a specific forward server by name |
+| `create_web_proxy_forward_server` | Create a new forward server |
+| `update_web_proxy_forward_server` | Update an existing forward server |
+| `delete_web_proxy_forward_server` | Delete a forward server by name |
+| `get_web_proxy_url_matches` | List all URL match rules |
+| `create_web_proxy_url_match` | Create a new URL match rule |
+| `delete_web_proxy_url_match` | Delete a URL match rule by name |
 
 ### DHCP
 

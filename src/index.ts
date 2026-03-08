@@ -4022,6 +4022,196 @@ server.tool(
   }
 );
 
+// ─── Web Proxy Tools ───────────────────────────────────────
+
+server.tool('get_web_proxy_global', 'Get global web proxy settings', {}, async () => {
+  try {
+    return result(await client.getWebProxyGlobal());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_web_proxy_global',
+  'Update global web proxy settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"max-message-length": 32, "proxy-fqdn": "proxy.example.com"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateWebProxyGlobal(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool('get_web_proxy_explicit', 'Get explicit web proxy settings', {}, async () => {
+  try {
+    return result(await client.getWebProxyExplicit());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_web_proxy_explicit',
+  'Update explicit web proxy settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "http-incoming-port": 8080, "https-incoming-port": 8443})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateWebProxyExplicit(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_web_proxy_forward_servers',
+  'List all web proxy forward servers',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWebProxyForwardServers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_web_proxy_forward_server',
+  'Get a specific web proxy forward server by name',
+  {
+    name: z.string().describe('Forward server name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getWebProxyForwardServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_web_proxy_forward_server',
+  'Create a new web proxy forward server',
+  {
+    name: z.string().describe('Forward server name'),
+    addr_type: z.enum(['ip', 'fqdn']).optional().default('ip').describe('Address type'),
+    ip: z.string().optional().describe('Server IP address (for ip type)'),
+    fqdn: z.string().optional().describe('Server FQDN (for fqdn type)'),
+    port: z.number().optional().default(3128).describe('Server port (default: 3128)'),
+    healthcheck: z.enum(['enable', 'disable']).optional().default('disable').describe('Enable health checking'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, addr_type, ip, fqdn, port, healthcheck, vdom }) => {
+    try {
+      const server: Record<string, unknown> = { name, 'addr-type': addr_type, port, healthcheck };
+      if (addr_type === 'ip' && ip) server.ip = ip;
+      if (addr_type === 'fqdn' && fqdn) server.fqdn = fqdn;
+      return result(await client.createWebProxyForwardServer(server, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_web_proxy_forward_server',
+  'Update an existing web proxy forward server',
+  {
+    name: z.string().describe('Forward server name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"ip": "10.0.0.50", "port": 8080})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateWebProxyForwardServer(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_web_proxy_forward_server',
+  'Delete a web proxy forward server by name',
+  {
+    name: z.string().describe('Forward server name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteWebProxyForwardServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_web_proxy_url_matches',
+  'List all web proxy URL match rules',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWebProxyUrlMatches(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_web_proxy_url_match',
+  'Create a new web proxy URL match rule',
+  {
+    name: z.string().describe('URL match rule name'),
+    url_pattern: z.string().describe('URL pattern to match'),
+    forward_server: z.string().describe('Forward server name to use for matching URLs'),
+    status: z.enum(['enable', 'disable']).optional().default('enable').describe('Rule status'),
+    comment: z.string().optional().describe('Comment'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, url_pattern, forward_server, status, comment, vdom }) => {
+    try {
+      const match: Record<string, unknown> = {
+        name,
+        'url-pattern': url_pattern,
+        'forward-server': { name: forward_server },
+        status,
+      };
+      if (comment) match.comment = comment;
+      return result(await client.createWebProxyUrlMatch(match, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_web_proxy_url_match',
+  'Delete a web proxy URL match rule by name',
+  {
+    name: z.string().describe('URL match rule name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteWebProxyUrlMatch(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── LDAP Server Tools ─────────────────────────────────────
 
 server.tool(

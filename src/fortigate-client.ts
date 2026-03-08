@@ -1666,6 +1666,72 @@ export class FortigateClient {
     return this.request('DELETE', `/api/v2/cmdb/firewall/shaping-policy/${id}`, undefined, params);
   }
 
+  // ─── Web Proxy ─────────────────────────────────────────────
+
+  async getWebProxyGlobal() {
+    return this.request('GET', '/api/v2/cmdb/web-proxy/global');
+  }
+
+  async updateWebProxyGlobal(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/web-proxy/global', settings);
+  }
+
+  async getWebProxyExplicit() {
+    return this.request('GET', '/api/v2/cmdb/web-proxy/explicit');
+  }
+
+  async updateWebProxyExplicit(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/web-proxy/explicit', settings);
+  }
+
+  async getWebProxyForwardServers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/web-proxy/forward-server', undefined, params);
+  }
+
+  async getWebProxyForwardServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/web-proxy/forward-server/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createWebProxyForwardServer(server: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/web-proxy/forward-server', server, params);
+  }
+
+  async updateWebProxyForwardServer(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/web-proxy/forward-server/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteWebProxyForwardServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/web-proxy/forward-server/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async getWebProxyUrlMatches(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/web-proxy/url-match', undefined, params);
+  }
+
+  async createWebProxyUrlMatch(match: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/web-proxy/url-match', match, params);
+  }
+
+  async deleteWebProxyUrlMatch(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/web-proxy/url-match/${encodeURIComponent(name)}`, undefined, params);
+  }
+
   // ─── LDAP Servers ──────────────────────────────────────────
 
   async getLdapServers(vdom?: string) {
