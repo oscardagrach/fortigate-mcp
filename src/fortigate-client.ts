@@ -738,6 +738,318 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/cmdb/vpn.ssl/settings', undefined, params);
   }
 
+  // ─── IPv6 Firewall Policies ─────────────────────────────────
+
+  async getFirewallPolicies6(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/policy6', undefined, params);
+  }
+
+  async getFirewallPolicy6(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/firewall/policy6/${id}`, undefined, params);
+  }
+
+  async createFirewallPolicy6(policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/firewall/policy6', policy, params);
+  }
+
+  async updateFirewallPolicy6(id: number, policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/firewall/policy6/${id}`, policy, params);
+  }
+
+  async deleteFirewallPolicy6(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/firewall/policy6/${id}`, undefined, params);
+  }
+
+  // ─── Central SNAT ──────────────────────────────────────────
+
+  async getCentralSnatMap(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/central-snat-map', undefined, params);
+  }
+
+  async getCentralSnatEntry(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/firewall/central-snat-map/${id}`, undefined, params);
+  }
+
+  async createCentralSnatEntry(entry: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/firewall/central-snat-map', entry, params);
+  }
+
+  async updateCentralSnatEntry(id: number, entry: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/firewall/central-snat-map/${id}`, entry, params);
+  }
+
+  async deleteCentralSnatEntry(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/firewall/central-snat-map/${id}`, undefined, params);
+  }
+
+  // ─── DoS Policies ─────────────────────────────────────────
+
+  async getDosPolicies(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/DoS-policy', undefined, params);
+  }
+
+  async getDosPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/firewall/DoS-policy/${id}`, undefined, params);
+  }
+
+  async createDosPolicy(policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/firewall/DoS-policy', policy, params);
+  }
+
+  async updateDosPolicy(id: number, policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/firewall/DoS-policy/${id}`, policy, params);
+  }
+
+  async deleteDosPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/firewall/DoS-policy/${id}`, undefined, params);
+  }
+
+  // ─── Multicast Policies ───────────────────────────────────
+
+  async getMulticastPolicies(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/multicast-policy', undefined, params);
+  }
+
+  async getMulticastPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/firewall/multicast-policy/${id}`, undefined, params);
+  }
+
+  async createMulticastPolicy(policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/firewall/multicast-policy', policy, params);
+  }
+
+  async updateMulticastPolicy(id: number, policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/firewall/multicast-policy/${id}`, policy, params);
+  }
+
+  async deleteMulticastPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/firewall/multicast-policy/${id}`, undefined, params);
+  }
+
+  // ─── Proxy Policies ───────────────────────────────────────
+
+  async getProxyPolicies(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/proxy-policy', undefined, params);
+  }
+
+  async getProxyPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/firewall/proxy-policy/${id}`, undefined, params);
+  }
+
+  async createProxyPolicy(policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/firewall/proxy-policy', policy, params);
+  }
+
+  async updateProxyPolicy(id: number, policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/firewall/proxy-policy/${id}`, policy, params);
+  }
+
+  async deleteProxyPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/firewall/proxy-policy/${id}`, undefined, params);
+  }
+
+  // ─── Local-in Policies ────────────────────────────────────
+
+  async getLocalInPolicies(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/local-in-policy', undefined, params);
+  }
+
+  async getLocalInPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/firewall/local-in-policy/${id}`, undefined, params);
+  }
+
+  async createLocalInPolicy(policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/firewall/local-in-policy', policy, params);
+  }
+
+  async updateLocalInPolicy(id: number, policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/firewall/local-in-policy/${id}`, policy, params);
+  }
+
+  async deleteLocalInPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/firewall/local-in-policy/${id}`, undefined, params);
+  }
+
+  // ─── IPv6 Address Objects ─────────────────────────────────
+
+  async getAddresses6(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/address6', undefined, params);
+  }
+
+  async getAddress6(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/firewall/address6/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createAddress6(address: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/firewall/address6', address, params);
+  }
+
+  async updateAddress6(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/firewall/address6/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteAddress6(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/firewall/address6/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── IPv6 Address Groups ──────────────────────────────────
+
+  async getAddressGroups6(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/addrgrp6', undefined, params);
+  }
+
+  // ─── Multicast Addresses ──────────────────────────────────
+
+  async getMulticastAddresses(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/multicast-address', undefined, params);
+  }
+
+  // ─── Internet Service ─────────────────────────────────────
+
+  async getInternetServices(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/internet-service-name', undefined, params);
+  }
+
+  // ─── Service Categories ───────────────────────────────────
+
+  async getServiceCategories(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall.service/category', undefined, params);
+  }
+
+  // ─── VIP Groups ───────────────────────────────────────────
+
+  async getVipGroups(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/vipgrp', undefined, params);
+  }
+
+  // ─── IPv6 IP Pools ────────────────────────────────────────
+
+  async getIpPools6(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/ippool6', undefined, params);
+  }
+
+  // ─── Shaping Profiles ─────────────────────────────────────
+
+  async getShapingProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/shaping-profile', undefined, params);
+  }
+
+  // ─── Shaping Policies ─────────────────────────────────────
+
+  async getShapingPolicies(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/firewall/shaping-policy', undefined, params);
+  }
+
+  async getShapingPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/firewall/shaping-policy/${id}`, undefined, params);
+  }
+
+  async createShapingPolicy(policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/firewall/shaping-policy', policy, params);
+  }
+
+  async updateShapingPolicy(id: number, policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/firewall/shaping-policy/${id}`, policy, params);
+  }
+
+  async deleteShapingPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/firewall/shaping-policy/${id}`, undefined, params);
+  }
+
   // ─── LDAP Servers ──────────────────────────────────────────
 
   async getLdapServers(vdom?: string) {

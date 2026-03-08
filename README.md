@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 127 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 174 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (127)
+## Available Tools (174)
 
 ### System
 
@@ -124,6 +124,66 @@ npm run dev
 | `update_firewall_policy` | Update an existing policy by ID |
 | `delete_firewall_policy` | Delete a policy by ID |
 
+### IPv6 Firewall Policies
+
+| Tool | Description |
+|---|---|
+| `get_firewall_policies6` | List all IPv6 firewall policies |
+| `get_firewall_policy6` | Get a specific IPv6 policy by ID |
+| `create_firewall_policy6` | Create a new IPv6 firewall policy |
+| `update_firewall_policy6` | Update an existing IPv6 policy by ID |
+| `delete_firewall_policy6` | Delete an IPv6 policy by ID |
+
+### Central SNAT
+
+| Tool | Description |
+|---|---|
+| `get_central_snat_map` | List all central SNAT map entries |
+| `get_central_snat_entry` | Get a specific central SNAT entry by ID |
+| `create_central_snat_entry` | Create a new central SNAT map entry |
+| `update_central_snat_entry` | Update an existing central SNAT entry by ID |
+| `delete_central_snat_entry` | Delete a central SNAT entry by ID |
+
+### DoS Policies
+
+| Tool | Description |
+|---|---|
+| `get_dos_policies` | List all DoS protection policies |
+| `get_dos_policy` | Get a specific DoS policy by ID |
+| `create_dos_policy` | Create a new DoS protection policy |
+| `update_dos_policy` | Update an existing DoS policy by ID |
+| `delete_dos_policy` | Delete a DoS policy by ID |
+
+### Multicast Policies
+
+| Tool | Description |
+|---|---|
+| `get_multicast_policies` | List all multicast firewall policies |
+| `get_multicast_policy` | Get a specific multicast policy by ID |
+| `create_multicast_policy` | Create a new multicast firewall policy |
+| `update_multicast_policy` | Update an existing multicast policy by ID |
+| `delete_multicast_policy` | Delete a multicast policy by ID |
+
+### Proxy Policies
+
+| Tool | Description |
+|---|---|
+| `get_proxy_policies` | List all explicit/transparent proxy policies |
+| `get_proxy_policy` | Get a specific proxy policy by ID |
+| `create_proxy_policy` | Create a new proxy policy |
+| `update_proxy_policy` | Update an existing proxy policy by ID |
+| `delete_proxy_policy` | Delete a proxy policy by ID |
+
+### Local-in Policies
+
+| Tool | Description |
+|---|---|
+| `get_local_in_policies` | List all local-in policies (traffic to the FortiGate itself) |
+| `get_local_in_policy` | Get a specific local-in policy by ID |
+| `create_local_in_policy` | Create a new local-in policy |
+| `update_local_in_policy` | Update an existing local-in policy by ID |
+| `delete_local_in_policy` | Delete a local-in policy by ID |
+
 ### Address Objects
 
 | Tool | Description |
@@ -135,12 +195,31 @@ npm run dev
 | `delete_address` | Delete an address object by name |
 | `get_address_groups` | List all firewall address groups |
 
+### IPv6 Address Objects
+
+| Tool | Description |
+|---|---|
+| `get_addresses6` | List all IPv6 firewall address objects |
+| `get_address6` | Get a specific IPv6 address object by name |
+| `create_address6` | Create a new IPv6 address object |
+| `update_address6` | Update an existing IPv6 address object by name |
+| `delete_address6` | Delete an IPv6 address object by name |
+| `get_address_groups6` | List all IPv6 firewall address groups |
+
+### Multicast Addresses
+
+| Tool | Description |
+|---|---|
+| `get_multicast_addresses` | List all firewall multicast address objects |
+
 ### Services
 
 | Tool | Description |
 |---|---|
 | `get_services` | List all custom firewall service objects |
 | `get_service_groups` | List all firewall service groups |
+| `get_service_categories` | List all firewall service categories |
+| `get_internet_services` | List all predefined internet service objects |
 
 ### Firewall Schedules
 
@@ -157,12 +236,25 @@ npm run dev
 | `get_vip` | Get a specific VIP by name |
 | `create_vip` | Create a VIP for DNAT / port forwarding |
 | `delete_vip` | Delete a VIP by name |
+| `get_vip_groups` | List all firewall virtual IP groups |
 
 ### IP Pools (SNAT)
 
 | Tool | Description |
 |---|---|
 | `get_ip_pools` | List all IP pools used for source NAT |
+| `get_ip_pools6` | List all IPv6 IP pools for source NAT |
+
+### Shaping Policies
+
+| Tool | Description |
+|---|---|
+| `get_shaping_profiles` | List all firewall traffic shaping profiles |
+| `get_shaping_policies` | List all firewall traffic shaping policies |
+| `get_shaping_policy` | Get a specific shaping policy by ID |
+| `create_shaping_policy` | Create a new traffic shaping policy |
+| `update_shaping_policy` | Update an existing shaping policy by ID |
+| `delete_shaping_policy` | Delete a shaping policy by ID |
 
 ### Routing
 

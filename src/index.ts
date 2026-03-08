@@ -1543,6 +1543,872 @@ server.tool(
   }
 );
 
+// ─── IPv6 Firewall Policy Tools ─────────────────────────────
+
+server.tool(
+  'get_firewall_policies6',
+  'List all IPv6 firewall policies',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getFirewallPolicies6(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_firewall_policy6',
+  'Get a specific IPv6 firewall policy by ID',
+  {
+    id: z.number().describe('Policy ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getFirewallPolicy6(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_firewall_policy6',
+  'Create a new IPv6 firewall policy',
+  {
+    name: z.string().describe('Policy name'),
+    srcintf: z.string().describe('Source interface (e.g., internal)'),
+    dstintf: z.string().describe('Destination interface (e.g., wan1)'),
+    srcaddr: z.string().describe('Source IPv6 address object name (e.g., all)'),
+    dstaddr: z.string().describe('Destination IPv6 address object name (e.g., all)'),
+    service: z.string().describe('Service name (e.g., ALL, HTTP, HTTPS)'),
+    action: z.enum(['accept', 'deny']).describe('Policy action'),
+    status: z.enum(['enable', 'disable']).optional().describe('Policy status'),
+    comments: z.string().optional().describe('Policy comments'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, srcintf, dstintf, srcaddr, dstaddr, service, action, status, comments, vdom }) => {
+    try {
+      const policy: Record<string, unknown> = {
+        name,
+        srcintf: [{ name: srcintf }],
+        dstintf: [{ name: dstintf }],
+        srcaddr: [{ name: srcaddr }],
+        dstaddr: [{ name: dstaddr }],
+        service: [{ name: service }],
+        action,
+        status: status || 'enable',
+      };
+      if (comments) policy.comments = comments;
+      return result(await client.createFirewallPolicy6(policy, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_firewall_policy6',
+  'Update an existing IPv6 firewall policy by ID',
+  {
+    id: z.number().describe('Policy ID to update'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"action": "deny", "status": "disable"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateFirewallPolicy6(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_firewall_policy6',
+  'Delete an IPv6 firewall policy by ID',
+  {
+    id: z.number().describe('Policy ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteFirewallPolicy6(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Central SNAT Tools ────────────────────────────────────
+
+server.tool(
+  'get_central_snat_map',
+  'List all central SNAT map entries',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getCentralSnatMap(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_central_snat_entry',
+  'Get a specific central SNAT entry by ID',
+  {
+    id: z.number().describe('Central SNAT entry ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getCentralSnatEntry(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_central_snat_entry',
+  'Create a new central SNAT map entry',
+  {
+    srcintf: z.string().describe('Source interface'),
+    dstintf: z.string().describe('Destination interface'),
+    srcaddr: z.string().describe('Source address object name'),
+    dstaddr: z.string().describe('Destination address object name'),
+    nat: z.enum(['enable', 'disable']).describe('Enable/disable source NAT'),
+    nat_ippool: z.string().optional().describe('IP pool name for NAT (if nat is enabled)'),
+    comments: z.string().optional().describe('Comments'),
+    status: z.enum(['enable', 'disable']).optional().describe('Entry status'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ srcintf, dstintf, srcaddr, dstaddr, nat, nat_ippool, comments, status, vdom }) => {
+    try {
+      const entry: Record<string, unknown> = {
+        srcintf: [{ name: srcintf }],
+        dstintf: [{ name: dstintf }],
+        'orig-addr': [{ name: srcaddr }],
+        'dst-addr': [{ name: dstaddr }],
+        nat,
+        status: status || 'enable',
+      };
+      if (nat_ippool) entry['nat-ippool'] = [{ name: nat_ippool }];
+      if (comments) entry.comments = comments;
+      return result(await client.createCentralSnatEntry(entry, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_central_snat_entry',
+  'Update an existing central SNAT entry by ID',
+  {
+    id: z.number().describe('Central SNAT entry ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateCentralSnatEntry(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_central_snat_entry',
+  'Delete a central SNAT entry by ID',
+  {
+    id: z.number().describe('Central SNAT entry ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteCentralSnatEntry(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── DoS Policy Tools ──────────────────────────────────────
+
+server.tool(
+  'get_dos_policies',
+  'List all DoS protection policies',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getDosPolicies(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_dos_policy',
+  'Get a specific DoS policy by ID',
+  {
+    id: z.number().describe('DoS policy ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getDosPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_dos_policy',
+  'Create a new DoS protection policy',
+  {
+    srcintf: z.string().describe('Incoming interface'),
+    srcaddr: z.string().describe('Source address object name'),
+    dstaddr: z.string().describe('Destination address object name'),
+    service: z.string().describe('Service name'),
+    status: z.enum(['enable', 'disable']).optional().describe('Policy status'),
+    comments: z.string().optional().describe('Comments'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ srcintf, srcaddr, dstaddr, service, status, comments, vdom }) => {
+    try {
+      const policy: Record<string, unknown> = {
+        interface: [{ name: srcintf }],
+        srcaddr: [{ name: srcaddr }],
+        dstaddr: [{ name: dstaddr }],
+        service: [{ name: service }],
+        status: status || 'enable',
+      };
+      if (comments) policy.comments = comments;
+      return result(await client.createDosPolicy(policy, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_dos_policy',
+  'Update an existing DoS policy by ID',
+  {
+    id: z.number().describe('DoS policy ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateDosPolicy(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_dos_policy',
+  'Delete a DoS policy by ID',
+  {
+    id: z.number().describe('DoS policy ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteDosPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Multicast Policy Tools ────────────────────────────────
+
+server.tool(
+  'get_multicast_policies',
+  'List all multicast firewall policies',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getMulticastPolicies(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_multicast_policy',
+  'Get a specific multicast policy by ID',
+  {
+    id: z.number().describe('Multicast policy ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getMulticastPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_multicast_policy',
+  'Create a new multicast firewall policy',
+  {
+    srcintf: z.string().describe('Source interface'),
+    dstintf: z.string().describe('Destination interface'),
+    srcaddr: z.string().describe('Source address object name'),
+    dstaddr: z.string().describe('Destination multicast address object name'),
+    action: z.enum(['accept', 'deny']).describe('Policy action'),
+    status: z.enum(['enable', 'disable']).optional().describe('Policy status'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ srcintf, dstintf, srcaddr, dstaddr, action, status, vdom }) => {
+    try {
+      const policy: Record<string, unknown> = {
+        srcintf: [{ name: srcintf }],
+        dstintf: [{ name: dstintf }],
+        srcaddr: [{ name: srcaddr }],
+        dstaddr: [{ name: dstaddr }],
+        action,
+        status: status || 'enable',
+      };
+      return result(await client.createMulticastPolicy(policy, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_multicast_policy',
+  'Update an existing multicast policy by ID',
+  {
+    id: z.number().describe('Multicast policy ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateMulticastPolicy(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_multicast_policy',
+  'Delete a multicast policy by ID',
+  {
+    id: z.number().describe('Multicast policy ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteMulticastPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Proxy Policy Tools ────────────────────────────────────
+
+server.tool(
+  'get_proxy_policies',
+  'List all explicit/transparent proxy policies',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getProxyPolicies(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_proxy_policy',
+  'Get a specific proxy policy by ID',
+  {
+    id: z.number().describe('Proxy policy ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getProxyPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_proxy_policy',
+  'Create a new proxy policy',
+  {
+    proxy: z.enum(['explicit-web', 'transparent-web', 'ftp', 'ssh', 'ssh-tunnel', 'wanopt']).describe('Proxy type'),
+    srcintf: z.string().describe('Source interface'),
+    dstintf: z.string().describe('Destination interface'),
+    srcaddr: z.string().describe('Source address object name'),
+    dstaddr: z.string().describe('Destination address object name'),
+    service: z.string().describe('Service name'),
+    action: z.enum(['accept', 'deny']).describe('Policy action'),
+    status: z.enum(['enable', 'disable']).optional().describe('Policy status'),
+    comments: z.string().optional().describe('Comments'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ proxy, srcintf, dstintf, srcaddr, dstaddr, service, action, status, comments, vdom }) => {
+    try {
+      const policy: Record<string, unknown> = {
+        proxy,
+        srcintf: [{ name: srcintf }],
+        dstintf: [{ name: dstintf }],
+        srcaddr: [{ name: srcaddr }],
+        dstaddr: [{ name: dstaddr }],
+        service: [{ name: service }],
+        action,
+        status: status || 'enable',
+      };
+      if (comments) policy.comments = comments;
+      return result(await client.createProxyPolicy(policy, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_proxy_policy',
+  'Update an existing proxy policy by ID',
+  {
+    id: z.number().describe('Proxy policy ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateProxyPolicy(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_proxy_policy',
+  'Delete a proxy policy by ID',
+  {
+    id: z.number().describe('Proxy policy ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteProxyPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Local-in Policy Tools ─────────────────────────────────
+
+server.tool(
+  'get_local_in_policies',
+  'List all local-in policies (traffic destined to the FortiGate itself)',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getLocalInPolicies(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_local_in_policy',
+  'Get a specific local-in policy by ID',
+  {
+    id: z.number().describe('Local-in policy ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getLocalInPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_local_in_policy',
+  'Create a new local-in policy (controls traffic to the FortiGate itself)',
+  {
+    srcintf: z.string().describe('Source interface'),
+    srcaddr: z.string().describe('Source address object name'),
+    dstaddr: z.string().describe('Destination address object name'),
+    service: z.string().describe('Service name'),
+    action: z.enum(['accept', 'deny']).describe('Policy action'),
+    schedule: z.string().optional().default('always').describe('Schedule name (default: always)'),
+    status: z.enum(['enable', 'disable']).optional().describe('Policy status'),
+    comments: z.string().optional().describe('Comments'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ srcintf, srcaddr, dstaddr, service, action, schedule, status, comments, vdom }) => {
+    try {
+      const policy: Record<string, unknown> = {
+        intf: [{ name: srcintf }],
+        srcaddr: [{ name: srcaddr }],
+        dstaddr: [{ name: dstaddr }],
+        service: [{ name: service }],
+        action,
+        schedule,
+        status: status || 'enable',
+      };
+      if (comments) policy.comments = comments;
+      return result(await client.createLocalInPolicy(policy, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_local_in_policy',
+  'Update an existing local-in policy by ID',
+  {
+    id: z.number().describe('Local-in policy ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateLocalInPolicy(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_local_in_policy',
+  'Delete a local-in policy by ID',
+  {
+    id: z.number().describe('Local-in policy ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteLocalInPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── IPv6 Address Object Tools ──────────────────────────────
+
+server.tool(
+  'get_addresses6',
+  'List all IPv6 firewall address objects',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getAddresses6(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_address6',
+  'Get a specific IPv6 address object by name',
+  {
+    name: z.string().describe('IPv6 address object name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getAddress6(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_address6',
+  'Create a new IPv6 firewall address object',
+  {
+    name: z.string().describe('Address object name'),
+    ip6: z.string().describe('IPv6 address/prefix (e.g., 2001:db8::/32)'),
+    comment: z.string().optional().describe('Comment'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, ip6, comment, vdom }) => {
+    try {
+      const address: Record<string, unknown> = { name, ip6 };
+      if (comment) address.comment = comment;
+      return result(await client.createAddress6(address, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_address6',
+  'Update an existing IPv6 address object by name',
+  {
+    name: z.string().describe('IPv6 address object name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"ip6": "2001:db8:1::/48", "comment": "updated"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateAddress6(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_address6',
+  'Delete an IPv6 address object by name',
+  {
+    name: z.string().describe('IPv6 address object name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteAddress6(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── IPv6 Address Group Tools ───────────────────────────────
+
+server.tool(
+  'get_address_groups6',
+  'List all IPv6 firewall address groups',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getAddressGroups6(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Multicast Address Tools ────────────────────────────────
+
+server.tool(
+  'get_multicast_addresses',
+  'List all firewall multicast address objects',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getMulticastAddresses(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Internet Service Tools ────────────────────────────────
+
+server.tool(
+  'get_internet_services',
+  'List all predefined internet service objects (used in policies for well-known services)',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getInternetServices(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Service Category Tools ────────────────────────────────
+
+server.tool(
+  'get_service_categories',
+  'List all firewall service categories',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getServiceCategories(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── VIP Group Tools ───────────────────────────────────────
+
+server.tool(
+  'get_vip_groups',
+  'List all firewall virtual IP groups',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getVipGroups(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── IPv6 IP Pool Tools ────────────────────────────────────
+
+server.tool(
+  'get_ip_pools6',
+  'List all IPv6 IP pools for source NAT',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getIpPools6(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Shaping Profile Tools ─────────────────────────────────
+
+server.tool(
+  'get_shaping_profiles',
+  'List all firewall traffic shaping profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getShapingProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Shaping Policy Tools ──────────────────────────────────
+
+server.tool(
+  'get_shaping_policies',
+  'List all firewall traffic shaping policies',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getShapingPolicies(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_shaping_policy',
+  'Get a specific shaping policy by ID',
+  {
+    id: z.number().describe('Shaping policy ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getShapingPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_shaping_policy',
+  'Create a new traffic shaping policy',
+  {
+    srcintf: z.string().describe('Source interface'),
+    dstintf: z.string().describe('Destination interface'),
+    srcaddr: z.string().describe('Source address object name'),
+    dstaddr: z.string().describe('Destination address object name'),
+    service: z.string().describe('Service name'),
+    traffic_shaper: z.string().optional().describe('Traffic shaper profile name for guaranteed bandwidth'),
+    traffic_shaper_reverse: z.string().optional().describe('Reverse traffic shaper profile name'),
+    status: z.enum(['enable', 'disable']).optional().describe('Policy status'),
+    comments: z.string().optional().describe('Comments'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ srcintf, dstintf, srcaddr, dstaddr, service, traffic_shaper, traffic_shaper_reverse, status, comments, vdom }) => {
+    try {
+      const policy: Record<string, unknown> = {
+        srcintf: [{ name: srcintf }],
+        dstintf: [{ name: dstintf }],
+        srcaddr: [{ name: srcaddr }],
+        dstaddr: [{ name: dstaddr }],
+        service: [{ name: service }],
+        status: status || 'enable',
+      };
+      if (traffic_shaper) policy['traffic-shaper'] = traffic_shaper;
+      if (traffic_shaper_reverse) policy['traffic-shaper-reverse'] = traffic_shaper_reverse;
+      if (comments) policy.comments = comments;
+      return result(await client.createShapingPolicy(policy, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_shaping_policy',
+  'Update an existing shaping policy by ID',
+  {
+    id: z.number().describe('Shaping policy ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateShapingPolicy(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_shaping_policy',
+  'Delete a shaping policy by ID',
+  {
+    id: z.number().describe('Shaping policy ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteShapingPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── LDAP Server Tools ─────────────────────────────────────
 
 server.tool(
