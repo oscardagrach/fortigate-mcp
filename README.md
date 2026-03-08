@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 320 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 333 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (320)
+## Available Tools (333)
 
 ### System
 
@@ -816,6 +816,24 @@ npm run dev
 | `get_switch_qos_policies` | List all switch QoS policies |
 | `get_switch_qos_dot1p_map` | List all 802.1p priority maps |
 | `get_switch_qos_ip_dscp_map` | List all IP DSCP maps |
+
+### Wireless Controller
+
+| Tool | Description |
+|---|---|
+| `get_managed_aps` | List all managed FortiAP access points |
+| `get_managed_ap` | Get a specific managed AP by ID |
+| `update_managed_ap` | Update a managed AP configuration |
+| `delete_managed_ap` | Delete (deauthorize) a managed AP |
+| `get_wtp_profiles` | List all WTP (Wireless Termination Point) profiles |
+| `get_wtp_profile` | Get a specific WTP profile |
+| `get_wireless_ssids` | List all wireless SSIDs (VAPs) |
+| `get_wireless_ssid` | Get a specific wireless SSID (VAP) |
+| `create_wireless_ssid` | Create a new wireless SSID (VAP) |
+| `update_wireless_ssid` | Update a wireless SSID (VAP) |
+| `delete_wireless_ssid` | Delete a wireless SSID (VAP) |
+| `get_wids_profiles` | List all Wireless IDS profiles |
+| `get_wids_profile` | Get a specific Wireless IDS profile |
 
 ## VDOM Support
 

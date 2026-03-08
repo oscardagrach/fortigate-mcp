@@ -4264,6 +4264,213 @@ server.tool(
   }
 );
 
+// ─── Wireless Controller Tools ──────────────────────────────
+
+server.tool(
+  'get_managed_aps',
+  'List all FortiAP managed access points',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getManagedAPs(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_managed_ap',
+  'Get a specific managed FortiAP by serial number',
+  {
+    id: z.string().describe('FortiAP serial number'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getManagedAP(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_managed_ap',
+  'Update a managed FortiAP configuration',
+  {
+    id: z.string().describe('FortiAP serial number'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"name": "AP-Lobby", "wtp-profile": "default"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateManagedAP(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_managed_ap',
+  'Delete (deauthorize) a managed FortiAP by serial number',
+  {
+    id: z.string().describe('FortiAP serial number to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteManagedAP(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wtp_profiles',
+  'List all FortiAP WTP (Wireless Termination Point) profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWtpProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wtp_profile',
+  'Get a specific WTP profile by name',
+  {
+    name: z.string().describe('WTP profile name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getWtpProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wireless_ssids',
+  'List all wireless SSIDs (VAPs - Virtual Access Points)',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWirelessVaps(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wireless_ssid',
+  'Get a specific wireless SSID (VAP) by name',
+  {
+    name: z.string().describe('SSID/VAP name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getWirelessVap(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_wireless_ssid',
+  'Create a new wireless SSID (VAP)',
+  {
+    name: z.string().describe('SSID/VAP name'),
+    ssid: z.string().describe('SSID broadcast name'),
+    security: z.enum(['open', 'wpa2-only-personal', 'wpa2-only-enterprise', 'wpa3-sae', 'wpa3-enterprise']).optional().default('wpa2-only-personal').describe('Security mode'),
+    passphrase: z.string().optional().describe('WPA passphrase (for personal modes)'),
+    auth: z.string().optional().describe('Authentication server name (for enterprise modes)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, ssid, security, passphrase, auth, vdom }) => {
+    try {
+      const vap: Record<string, unknown> = { name, ssid, security };
+      if (passphrase) vap.passphrase = passphrase;
+      if (auth) vap.auth = auth;
+      return result(await client.createWirelessVap(vap, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wireless_ssid',
+  'Update an existing wireless SSID (VAP)',
+  {
+    name: z.string().describe('SSID/VAP name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"ssid": "NewName", "security": "wpa3-sae"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateWirelessVap(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_wireless_ssid',
+  'Delete a wireless SSID (VAP) by name',
+  {
+    name: z.string().describe('SSID/VAP name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteWirelessVap(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wids_profiles',
+  'List all Wireless IDS (WIDS) profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWidsProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wids_profile',
+  'Get a specific WIDS profile by name',
+  {
+    name: z.string().describe('WIDS profile name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getWidsProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Switch Controller Tools ────────────────────────────────
 
 server.tool(

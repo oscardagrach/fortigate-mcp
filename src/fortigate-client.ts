@@ -1778,6 +1778,86 @@ export class FortigateClient {
     return this.request('DELETE', `/api/v2/cmdb/firewall/shaping-policy/${id}`, undefined, params);
   }
 
+  // ─── Wireless Controller ───────────────────────────────────
+
+  async getManagedAPs(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wireless-controller/wtp', undefined, params);
+  }
+
+  async getManagedAP(id: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/wireless-controller/wtp/${encodeURIComponent(id)}`, undefined, params);
+  }
+
+  async updateManagedAP(id: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/wireless-controller/wtp/${encodeURIComponent(id)}`, updates, params);
+  }
+
+  async deleteManagedAP(id: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/wireless-controller/wtp/${encodeURIComponent(id)}`, undefined, params);
+  }
+
+  async getWtpProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wireless-controller/wtp-profile', undefined, params);
+  }
+
+  async getWtpProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/wireless-controller/wtp-profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async getWirelessVaps(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wireless-controller/vap', undefined, params);
+  }
+
+  async getWirelessVap(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/wireless-controller/vap/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createWirelessVap(vap: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/wireless-controller/vap', vap, params);
+  }
+
+  async updateWirelessVap(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/wireless-controller/vap/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteWirelessVap(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/wireless-controller/vap/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async getWidsProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wireless-controller/wids-profile', undefined, params);
+  }
+
+  async getWidsProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/wireless-controller/wids-profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
   // ─── Switch Controller ─────────────────────────────────────
 
   async getManagedSwitches(vdom?: string) {
