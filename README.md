@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 174 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 209 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (174)
+## Available Tools (209)
 
 ### System
 
@@ -292,6 +292,86 @@ npm run dev
 | `get_prefix_lists` | List all router prefix lists |
 | `get_route_maps` | List all router route maps |
 | `get_community_lists` | List all BGP community lists |
+| `get_prefix_lists6` | List all IPv6 router prefix lists |
+
+### Access Lists
+
+| Tool | Description |
+|---|---|
+| `get_access_lists` | List all router access lists (IPv4) |
+| `get_access_list` | Get a specific router access list by name |
+| `create_access_list` | Create a new router access list |
+| `update_access_list` | Update an existing router access list |
+| `delete_access_list` | Delete a router access list by name |
+| `get_access_lists6` | List all IPv6 router access lists |
+
+### AS Path Lists
+
+| Tool | Description |
+|---|---|
+| `get_aspath_lists` | List all BGP AS path lists |
+| `get_aspath_list` | Get a specific AS path list by name |
+| `create_aspath_list` | Create a new BGP AS path list |
+| `update_aspath_list` | Update an existing AS path list |
+| `delete_aspath_list` | Delete an AS path list by name |
+
+### BFD
+
+| Tool | Description |
+|---|---|
+| `get_bfd_config` | Get BFD (Bidirectional Forwarding Detection) configuration |
+| `update_bfd_config` | Update BFD configuration |
+
+### RIP
+
+| Tool | Description |
+|---|---|
+| `get_rip_config` | Get RIP routing configuration |
+| `update_rip_config` | Update RIP routing configuration |
+
+### IS-IS
+
+| Tool | Description |
+|---|---|
+| `get_isis_config` | Get IS-IS routing configuration |
+| `update_isis_config` | Update IS-IS routing configuration |
+
+### Multicast Routing
+
+| Tool | Description |
+|---|---|
+| `get_multicast_routing_config` | Get multicast routing (PIM) configuration |
+| `update_multicast_routing_config` | Update multicast routing (PIM) configuration |
+
+### Router Policy (PBR)
+
+| Tool | Description |
+|---|---|
+| `get_router_policies` | List all policy-based routing rules |
+| `get_router_policy` | Get a specific PBR rule by sequence number |
+| `create_router_policy` | Create a new policy-based routing rule |
+| `update_router_policy` | Update an existing PBR rule |
+| `delete_router_policy` | Delete a PBR rule by sequence number |
+
+### Key Chains
+
+| Tool | Description |
+|---|---|
+| `get_key_chains` | List all router authentication key chains |
+| `get_key_chain` | Get a specific key chain by name |
+| `create_key_chain` | Create a new key chain |
+| `update_key_chain` | Update an existing key chain |
+| `delete_key_chain` | Delete a key chain by name |
+
+### IPv6 Static Routes
+
+| Tool | Description |
+|---|---|
+| `get_static_routes6` | List all IPv6 static routes |
+| `get_static_route6` | Get a specific IPv6 static route by ID |
+| `create_static_route6` | Create a new IPv6 static route |
+| `update_static_route6` | Update an existing IPv6 static route by ID |
+| `delete_static_route6` | Delete an IPv6 static route by ID |
 
 ### Firewall Policy Statistics
 

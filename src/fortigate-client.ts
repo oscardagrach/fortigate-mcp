@@ -552,6 +552,236 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/monitor/firewall/policy');
   }
 
+  // ─── Access Lists ──────────────────────────────────────────
+
+  async getAccessLists(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/access-list', undefined, params);
+  }
+
+  async getAccessList(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/router/access-list/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createAccessList(acl: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/router/access-list', acl, params);
+  }
+
+  async updateAccessList(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/router/access-list/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteAccessList(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/router/access-list/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async getAccessLists6(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/access-list6', undefined, params);
+  }
+
+  // ─── AS Path Lists ────────────────────────────────────────
+
+  async getAspathLists(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/aspath-list', undefined, params);
+  }
+
+  async getAspathList(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/router/aspath-list/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createAspathList(aspath: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/router/aspath-list', aspath, params);
+  }
+
+  async updateAspathList(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/router/aspath-list/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteAspathList(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/router/aspath-list/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── BFD ──────────────────────────────────────────────────
+
+  async getBfd(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/bfd', undefined, params);
+  }
+
+  async updateBfd(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/router/bfd', updates, params);
+  }
+
+  // ─── RIP ──────────────────────────────────────────────────
+
+  async getRipConfig(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/rip', undefined, params);
+  }
+
+  async updateRipConfig(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/router/rip', updates, params);
+  }
+
+  // ─── IS-IS ────────────────────────────────────────────────
+
+  async getIsisConfig(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/isis', undefined, params);
+  }
+
+  async updateIsisConfig(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/router/isis', updates, params);
+  }
+
+  // ─── Multicast / PIM ──────────────────────────────────────
+
+  async getMulticastConfig(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/multicast', undefined, params);
+  }
+
+  async updateMulticastConfig(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/router/multicast', updates, params);
+  }
+
+  // ─── Router Policy (PBR) ──────────────────────────────────
+
+  async getRouterPolicies(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/policy', undefined, params);
+  }
+
+  async getRouterPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/router/policy/${id}`, undefined, params);
+  }
+
+  async createRouterPolicy(policy: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/router/policy', policy, params);
+  }
+
+  async updateRouterPolicy(id: number, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/router/policy/${id}`, updates, params);
+  }
+
+  async deleteRouterPolicy(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/router/policy/${id}`, undefined, params);
+  }
+
+  // ─── Key Chains ───────────────────────────────────────────
+
+  async getKeyChains(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/key-chain', undefined, params);
+  }
+
+  async getKeyChain(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/router/key-chain/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createKeyChain(keychain: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/router/key-chain', keychain, params);
+  }
+
+  async updateKeyChain(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/router/key-chain/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteKeyChain(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/router/key-chain/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── IPv6 Static Routes ──────────────────────────────────
+
+  async getStaticRoutes6(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/static6', undefined, params);
+  }
+
+  async getStaticRoute6(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/router/static6/${id}`, undefined, params);
+  }
+
+  async createStaticRoute6(route: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/router/static6', route, params);
+  }
+
+  async updateStaticRoute6(id: number, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/router/static6/${id}`, updates, params);
+  }
+
+  async deleteStaticRoute6(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/router/static6/${id}`, undefined, params);
+  }
+
+  // ─── Prefix List 6 ───────────────────────────────────────
+
+  async getPrefixLists6(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/router/prefix-list6', undefined, params);
+  }
+
   // ─── SNMP ─────────────────────────────────────────────────
 
   async getSnmpCommunities() {

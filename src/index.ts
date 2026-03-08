@@ -1104,6 +1104,611 @@ server.tool(
   }
 );
 
+// ─── Access List Tools ─────────────────────────────────────
+
+server.tool(
+  'get_access_lists',
+  'List all router access lists (IPv4 route filtering)',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getAccessLists(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_access_list',
+  'Get a specific router access list by name',
+  {
+    name: z.string().describe('Access list name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getAccessList(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_access_list',
+  'Create a new router access list',
+  {
+    name: z.string().describe('Access list name'),
+    comments: z.string().optional().describe('Comments'),
+    rule: z.array(z.object({
+      id: z.number().describe('Rule ID'),
+      action: z.enum(['permit', 'deny']).describe('Rule action'),
+      prefix: z.string().describe('IPv4 prefix (e.g., 10.0.0.0/8 or "any")'),
+      exact_match: z.enum(['enable', 'disable']).optional().describe('Require exact prefix match'),
+    })).optional().describe('Access list rules'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, comments, rule, vdom }) => {
+    try {
+      const acl: Record<string, unknown> = { name };
+      if (comments) acl.comments = comments;
+      if (rule) acl.rule = rule.map(r => ({
+        id: r.id,
+        action: r.action,
+        prefix: r.prefix,
+        'exact-match': r.exact_match || 'disable',
+      }));
+      return result(await client.createAccessList(acl, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_access_list',
+  'Update an existing router access list',
+  {
+    name: z.string().describe('Access list name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateAccessList(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_access_list',
+  'Delete a router access list by name',
+  {
+    name: z.string().describe('Access list name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteAccessList(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_access_lists6',
+  'List all IPv6 router access lists',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getAccessLists6(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── AS Path List Tools ────────────────────────────────────
+
+server.tool(
+  'get_aspath_lists',
+  'List all BGP AS path lists',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getAspathLists(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_aspath_list',
+  'Get a specific BGP AS path list by name',
+  {
+    name: z.string().describe('AS path list name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getAspathList(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_aspath_list',
+  'Create a new BGP AS path list',
+  {
+    name: z.string().describe('AS path list name'),
+    rule: z.array(z.object({
+      id: z.number().describe('Rule ID'),
+      action: z.enum(['permit', 'deny']).describe('Rule action'),
+      regexp: z.string().describe('AS path regular expression'),
+    })).optional().describe('AS path list rules'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, rule, vdom }) => {
+    try {
+      const aspath: Record<string, unknown> = { name };
+      if (rule) aspath.rule = rule;
+      return result(await client.createAspathList(aspath, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_aspath_list',
+  'Update an existing BGP AS path list',
+  {
+    name: z.string().describe('AS path list name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateAspathList(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_aspath_list',
+  'Delete a BGP AS path list by name',
+  {
+    name: z.string().describe('AS path list name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteAspathList(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── BFD Tools ─────────────────────────────────────────────
+
+server.tool(
+  'get_bfd_config',
+  'Get BFD (Bidirectional Forwarding Detection) configuration',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getBfd(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_bfd_config',
+  'Update BFD configuration',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"neighbor": [...]})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateBfd(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── RIP Tools ─────────────────────────────────────────────
+
+server.tool(
+  'get_rip_config',
+  'Get RIP routing configuration',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getRipConfig(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_rip_config',
+  'Update RIP routing configuration',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"default-metric": 5, "redistribute": [...]})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateRipConfig(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── IS-IS Tools ───────────────────────────────────────────
+
+server.tool(
+  'get_isis_config',
+  'Get IS-IS routing configuration',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getIsisConfig(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_isis_config',
+  'Update IS-IS routing configuration',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"is-type": "level-1-2", "net": [...]})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateIsisConfig(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Multicast / PIM Tools ─────────────────────────────────
+
+server.tool(
+  'get_multicast_routing_config',
+  'Get multicast routing (PIM) configuration',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getMulticastConfig(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_multicast_routing_config',
+  'Update multicast routing (PIM) configuration',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateMulticastConfig(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Router Policy (PBR) Tools ─────────────────────────────
+
+server.tool(
+  'get_router_policies',
+  'List all policy-based routing (PBR) rules',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getRouterPolicies(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_router_policy',
+  'Get a specific policy-based routing rule by sequence number',
+  {
+    id: z.number().describe('Router policy sequence number'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getRouterPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_router_policy',
+  'Create a new policy-based routing rule',
+  {
+    src: z.string().optional().describe('Source subnet (e.g., 10.0.0.0/24)'),
+    dst: z.string().optional().describe('Destination subnet (e.g., 0.0.0.0/0)'),
+    input_device: z.string().optional().describe('Incoming interface name'),
+    output_device: z.string().optional().describe('Outgoing interface name'),
+    gateway: z.string().optional().describe('Next-hop gateway IP'),
+    protocol: z.number().optional().describe('Protocol number (0=any, 6=TCP, 17=UDP)'),
+    comments: z.string().optional().describe('Comments'),
+    status: z.enum(['enable', 'disable']).optional().describe('Rule status'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ src, dst, input_device, output_device, gateway, protocol, comments, status, vdom }) => {
+    try {
+      const policy: Record<string, unknown> = {
+        status: status || 'enable',
+      };
+      if (src) policy.src = [{ subnet: src }];
+      if (dst) policy.dst = [{ subnet: dst }];
+      if (input_device) policy['input-device'] = [{ name: input_device }];
+      if (output_device) policy['output-device'] = output_device;
+      if (gateway) policy.gateway = gateway;
+      if (protocol !== undefined) policy.protocol = protocol;
+      if (comments) policy.comments = comments;
+      return result(await client.createRouterPolicy(policy, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_router_policy',
+  'Update an existing policy-based routing rule',
+  {
+    id: z.number().describe('Router policy sequence number'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateRouterPolicy(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_router_policy',
+  'Delete a policy-based routing rule by sequence number',
+  {
+    id: z.number().describe('Router policy sequence number to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteRouterPolicy(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Key Chain Tools ───────────────────────────────────────
+
+server.tool(
+  'get_key_chains',
+  'List all router authentication key chains',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getKeyChains(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_key_chain',
+  'Get a specific key chain by name',
+  {
+    name: z.string().describe('Key chain name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getKeyChain(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_key_chain',
+  'Create a new router authentication key chain',
+  {
+    name: z.string().describe('Key chain name'),
+    key: z.array(z.object({
+      id: z.number().describe('Key ID'),
+      key_string: z.string().describe('Authentication key string'),
+    })).optional().describe('Key entries'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, key, vdom }) => {
+    try {
+      const keychain: Record<string, unknown> = { name };
+      if (key) keychain.key = key.map(k => ({ id: k.id, 'key-string': k.key_string }));
+      return result(await client.createKeyChain(keychain, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_key_chain',
+  'Update an existing key chain',
+  {
+    name: z.string().describe('Key chain name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateKeyChain(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_key_chain',
+  'Delete a key chain by name',
+  {
+    name: z.string().describe('Key chain name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteKeyChain(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── IPv6 Static Route Tools ───────────────────────────────
+
+server.tool(
+  'get_static_routes6',
+  'List all configured IPv6 static routes',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getStaticRoutes6(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_static_route6',
+  'Get a specific IPv6 static route by ID',
+  {
+    id: z.number().describe('Static route ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getStaticRoute6(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_static_route6',
+  'Create a new IPv6 static route',
+  {
+    dst: z.string().describe('Destination IPv6 prefix (e.g., 2001:db8::/32)'),
+    gateway: z.string().optional().describe('Next-hop IPv6 gateway address'),
+    device: z.string().describe('Outgoing interface name'),
+    distance: z.number().optional().default(10).describe('Administrative distance (default: 10)'),
+    status: z.enum(['enable', 'disable']).optional().describe('Route status'),
+    comment: z.string().optional().describe('Comment'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ dst, gateway, device, distance, status, comment, vdom }) => {
+    try {
+      const route: Record<string, unknown> = { dst, device, distance, status: status || 'enable' };
+      if (gateway) route.gateway = gateway;
+      if (comment) route.comment = comment;
+      return result(await client.createStaticRoute6(route, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_static_route6',
+  'Update an existing IPv6 static route by ID',
+  {
+    id: z.number().describe('Static route ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"gateway": "::1", "distance": 20})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateStaticRoute6(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_static_route6',
+  'Delete an IPv6 static route by ID',
+  {
+    id: z.number().describe('Static route ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteStaticRoute6(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Prefix List 6 Tools ───────────────────────────────────
+
+server.tool(
+  'get_prefix_lists6',
+  'List all IPv6 router prefix lists',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getPrefixLists6(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── SNMP Tools ───────────────────────────────────────────────
 
 server.tool('get_snmp_communities', 'List SNMP community configurations', {}, async () => {
