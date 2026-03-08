@@ -1543,6 +1543,485 @@ server.tool(
   }
 );
 
+// ─── LDAP Server Tools ─────────────────────────────────────
+
+server.tool(
+  'get_ldap_servers',
+  'List all configured LDAP server connections',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getLdapServers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_ldap_server',
+  'Get a specific LDAP server configuration by name',
+  {
+    name: z.string().describe('LDAP server name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getLdapServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_ldap_server',
+  'Create a new LDAP server connection',
+  {
+    name: z.string().describe('LDAP server name'),
+    server: z.string().describe('LDAP server hostname or IP address'),
+    port: z.number().optional().default(389).describe('LDAP server port (default: 389, use 636 for LDAPS)'),
+    cnid: z.string().optional().default('cn').describe('Common name identifier (default: cn)'),
+    dn: z.string().describe('Distinguished name used to look up entries (e.g., dc=example,dc=com)'),
+    type: z.enum(['simple', 'anonymous', 'regular']).optional().default('simple').describe('Authentication type'),
+    username: z.string().optional().describe('Bind DN username for authenticated lookups'),
+    password: z.string().optional().describe('Bind password'),
+    secure: z.enum(['disable', 'starttls', 'ldaps']).optional().default('disable').describe('SSL/TLS mode'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, server: ldapServer, port, cnid, dn, type, username, password, secure, vdom }) => {
+    try {
+      const ldap: Record<string, unknown> = { name, server: ldapServer, port, cnid, dn, type, secure };
+      if (username) ldap.username = username;
+      if (password) ldap.password = password;
+      return result(await client.createLdapServer(ldap, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_ldap_server',
+  'Update an existing LDAP server configuration',
+  {
+    name: z.string().describe('LDAP server name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"server": "10.0.0.5", "secure": "ldaps", "port": 636})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateLdapServer(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_ldap_server',
+  'Delete an LDAP server configuration by name',
+  {
+    name: z.string().describe('LDAP server name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteLdapServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── RADIUS Server Tools ───────────────────────────────────
+
+server.tool(
+  'get_radius_servers',
+  'List all configured RADIUS server connections',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getRadiusServers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_radius_server',
+  'Get a specific RADIUS server configuration by name',
+  {
+    name: z.string().describe('RADIUS server name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getRadiusServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_radius_server',
+  'Create a new RADIUS server connection',
+  {
+    name: z.string().describe('RADIUS server name'),
+    server: z.string().describe('RADIUS server hostname or IP address'),
+    secret: z.string().describe('RADIUS shared secret'),
+    secondary_server: z.string().optional().describe('Secondary RADIUS server hostname or IP'),
+    secondary_secret: z.string().optional().describe('Secondary RADIUS shared secret'),
+    auth_type: z.enum(['auto', 'ms_chap_v2', 'ms_chap', 'chap', 'pap']).optional().default('auto').describe('Authentication protocol'),
+    nas_ip: z.string().optional().describe('NAS IP address for RADIUS communication'),
+    radius_port: z.number().optional().default(1812).describe('RADIUS authentication port (default: 1812)'),
+    acct_interim_interval: z.number().optional().describe('RADIUS accounting interim interval in seconds'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, server: radiusServer, secret, secondary_server, secondary_secret, auth_type, nas_ip, radius_port, acct_interim_interval, vdom }) => {
+    try {
+      const radius: Record<string, unknown> = { name, server: radiusServer, secret };
+      if (auth_type) radius['auth-type'] = auth_type;
+      if (nas_ip) radius['nas-ip'] = nas_ip;
+      if (radius_port) radius['radius-port'] = radius_port;
+      if (secondary_server) radius['secondary-server'] = secondary_server;
+      if (secondary_secret) radius['secondary-secret'] = secondary_secret;
+      if (acct_interim_interval) radius['acct-interim-interval'] = acct_interim_interval;
+      return result(await client.createRadiusServer(radius, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_radius_server',
+  'Update an existing RADIUS server configuration',
+  {
+    name: z.string().describe('RADIUS server name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"server": "10.0.0.10", "secret": "newsecret", "auth-type": "ms_chap_v2"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateRadiusServer(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_radius_server',
+  'Delete a RADIUS server configuration by name',
+  {
+    name: z.string().describe('RADIUS server name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteRadiusServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── TACACS+ Server Tools ──────────────────────────────────
+
+server.tool(
+  'get_tacacs_servers',
+  'List all configured TACACS+ server connections',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getTacacsServers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_tacacs_server',
+  'Get a specific TACACS+ server configuration by name',
+  {
+    name: z.string().describe('TACACS+ server name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getTacacsServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_tacacs_server',
+  'Create a new TACACS+ server connection',
+  {
+    name: z.string().describe('TACACS+ server name'),
+    server: z.string().describe('TACACS+ server hostname or IP address'),
+    key: z.string().describe('TACACS+ shared secret key'),
+    port: z.number().optional().default(49).describe('TACACS+ server port (default: 49)'),
+    authen_type: z.enum(['auto', 'ascii', 'pap', 'chap', 'mschap']).optional().default('auto').describe('Authentication type'),
+    authorization: z.enum(['enable', 'disable']).optional().default('disable').describe('Enable/disable TACACS+ authorization'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, server: tacacsServer, key, port, authen_type, authorization, vdom }) => {
+    try {
+      const tacacs: Record<string, unknown> = {
+        name,
+        server: tacacsServer,
+        key,
+        port,
+        'authen-type': authen_type,
+        authorization,
+      };
+      return result(await client.createTacacsServer(tacacs, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_tacacs_server',
+  'Update an existing TACACS+ server configuration',
+  {
+    name: z.string().describe('TACACS+ server name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"server": "10.0.0.20", "key": "newkey"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateTacacsServer(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_tacacs_server',
+  'Delete a TACACS+ server configuration by name',
+  {
+    name: z.string().describe('TACACS+ server name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteTacacsServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── SAML Server Tools ─────────────────────────────────────
+
+server.tool(
+  'get_saml_servers',
+  'List all configured SAML IdP server connections',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSamlServers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_saml_server',
+  'Get a specific SAML IdP server configuration by name',
+  {
+    name: z.string().describe('SAML server name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getSamlServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_saml_server',
+  'Create a new SAML IdP server connection',
+  {
+    name: z.string().describe('SAML server name'),
+    entity_id: z.string().describe('SAML SP entity ID (FortiGate identifier)'),
+    single_sign_on_url: z.string().describe('IdP single sign-on URL'),
+    single_logout_url: z.string().optional().describe('IdP single logout URL'),
+    idp_entity_id: z.string().describe('IdP entity ID'),
+    idp_cert: z.string().describe('Name of installed IdP certificate for SAML verification'),
+    user_name: z.string().optional().default('username').describe('SAML attribute for username'),
+    group_name: z.string().optional().describe('SAML attribute for group membership'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, entity_id, single_sign_on_url, single_logout_url, idp_entity_id, idp_cert, user_name, group_name, vdom }) => {
+    try {
+      const saml: Record<string, unknown> = {
+        name,
+        'entity-id': entity_id,
+        'single-sign-on-url': single_sign_on_url,
+        'idp-entity-id': idp_entity_id,
+        'idp-cert': idp_cert,
+        'user-name': user_name,
+      };
+      if (single_logout_url) saml['single-logout-url'] = single_logout_url;
+      if (group_name) saml['group-name'] = group_name;
+      return result(await client.createSamlServer(saml, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_saml_server',
+  'Update an existing SAML IdP server configuration',
+  {
+    name: z.string().describe('SAML server name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"single-sign-on-url": "https://idp.example.com/sso", "idp-cert": "new-cert"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateSamlServer(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_saml_server',
+  'Delete a SAML IdP server configuration by name',
+  {
+    name: z.string().describe('SAML server name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteSamlServer(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── FortiToken Tools ──────────────────────────────────────
+
+server.tool(
+  'get_fortitokens',
+  'List all FortiToken two-factor authentication tokens',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getFortiTokens(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── FSSO Tools ────────────────────────────────────────────
+
+server.tool(
+  'get_fsso_servers',
+  'List all Fortinet SSO (FSSO) agent/polling connections',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getFssoPolling(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_fsso_server',
+  'Get a specific FSSO agent/polling connection by ID',
+  {
+    id: z.number().describe('FSSO entry ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getFssoPollingServer(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_fsso_server',
+  'Create a new FSSO agent/polling connection',
+  {
+    name: z.string().describe('FSSO connection name'),
+    server: z.string().describe('FSSO agent server hostname or IP'),
+    port: z.number().optional().default(8000).describe('FSSO agent listening port (default: 8000)'),
+    password: z.string().optional().describe('FSSO agent password'),
+    ldap_server: z.string().optional().describe('LDAP server name for FSSO polling mode'),
+    type: z.enum(['default', 'fortiems', 'fortinac', 'fortiems-cloud']).optional().default('default').describe('Server type'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, server: fssoServer, port, password, ldap_server, type, vdom }) => {
+    try {
+      const fsso: Record<string, unknown> = { name, server: fssoServer, port, type };
+      if (password) fsso.password = password;
+      if (ldap_server) fsso['ldap-server'] = ldap_server;
+      return result(await client.createFssoPolling(fsso, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_fsso_server',
+  'Update an existing FSSO agent/polling connection',
+  {
+    id: z.number().describe('FSSO entry ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"server": "10.0.0.30", "port": 8001})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateFssoPolling(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_fsso_server',
+  'Delete an FSSO agent/polling connection by ID',
+  {
+    id: z.number().describe('FSSO entry ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteFssoPolling(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {

@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 101 tools covering system management, firewall policies, routing, VPN, security profiles, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 127 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (101)
+## Available Tools (127)
 
 ### System
 
@@ -246,6 +246,62 @@ npm run dev
 | `get_local_users` | List local user accounts |
 | `get_user_groups` | List user groups |
 | `get_banned_users` | List currently banned user IPs |
+
+### LDAP Servers
+
+| Tool | Description |
+|---|---|
+| `get_ldap_servers` | List all configured LDAP server connections |
+| `get_ldap_server` | Get a specific LDAP server configuration by name |
+| `create_ldap_server` | Create a new LDAP server connection |
+| `update_ldap_server` | Update an existing LDAP server configuration |
+| `delete_ldap_server` | Delete an LDAP server configuration by name |
+
+### RADIUS Servers
+
+| Tool | Description |
+|---|---|
+| `get_radius_servers` | List all configured RADIUS server connections |
+| `get_radius_server` | Get a specific RADIUS server configuration by name |
+| `create_radius_server` | Create a new RADIUS server connection |
+| `update_radius_server` | Update an existing RADIUS server configuration |
+| `delete_radius_server` | Delete a RADIUS server configuration by name |
+
+### TACACS+ Servers
+
+| Tool | Description |
+|---|---|
+| `get_tacacs_servers` | List all configured TACACS+ server connections |
+| `get_tacacs_server` | Get a specific TACACS+ server configuration by name |
+| `create_tacacs_server` | Create a new TACACS+ server connection |
+| `update_tacacs_server` | Update an existing TACACS+ server configuration |
+| `delete_tacacs_server` | Delete a TACACS+ server configuration by name |
+
+### SAML
+
+| Tool | Description |
+|---|---|
+| `get_saml_servers` | List all configured SAML IdP server connections |
+| `get_saml_server` | Get a specific SAML IdP server configuration by name |
+| `create_saml_server` | Create a new SAML IdP server connection |
+| `update_saml_server` | Update an existing SAML IdP server configuration |
+| `delete_saml_server` | Delete a SAML IdP server configuration by name |
+
+### FortiToken
+
+| Tool | Description |
+|---|---|
+| `get_fortitokens` | List all FortiToken two-factor authentication tokens |
+
+### FSSO (Fortinet SSO)
+
+| Tool | Description |
+|---|---|
+| `get_fsso_servers` | List all FSSO agent/polling connections |
+| `get_fsso_server` | Get a specific FSSO agent/polling connection by ID |
+| `create_fsso_server` | Create a new FSSO agent/polling connection |
+| `update_fsso_server` | Update an existing FSSO agent/polling connection |
+| `delete_fsso_server` | Delete an FSSO agent/polling connection by ID |
 
 ### DHCP
 

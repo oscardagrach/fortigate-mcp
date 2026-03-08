@@ -737,4 +737,237 @@ export class FortigateClient {
     if (vdom) params['vdom'] = vdom;
     return this.request('GET', '/api/v2/cmdb/vpn.ssl/settings', undefined, params);
   }
+
+  // ─── LDAP Servers ──────────────────────────────────────────
+
+  async getLdapServers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/user/ldap', undefined, params);
+  }
+
+  async getLdapServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'GET',
+      `/api/v2/cmdb/user/ldap/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  async createLdapServer(ldap: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/user/ldap', ldap, params);
+  }
+
+  async updateLdapServer(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'PUT',
+      `/api/v2/cmdb/user/ldap/${encodeURIComponent(name)}`,
+      updates,
+      params
+    );
+  }
+
+  async deleteLdapServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'DELETE',
+      `/api/v2/cmdb/user/ldap/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  // ─── RADIUS Servers ────────────────────────────────────────
+
+  async getRadiusServers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/user/radius', undefined, params);
+  }
+
+  async getRadiusServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'GET',
+      `/api/v2/cmdb/user/radius/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  async createRadiusServer(radius: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/user/radius', radius, params);
+  }
+
+  async updateRadiusServer(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'PUT',
+      `/api/v2/cmdb/user/radius/${encodeURIComponent(name)}`,
+      updates,
+      params
+    );
+  }
+
+  async deleteRadiusServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'DELETE',
+      `/api/v2/cmdb/user/radius/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  // ─── TACACS+ Servers ───────────────────────────────────────
+
+  async getTacacsServers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/user/tacacs+', undefined, params);
+  }
+
+  async getTacacsServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'GET',
+      `/api/v2/cmdb/user/tacacs+/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  async createTacacsServer(tacacs: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/user/tacacs+', tacacs, params);
+  }
+
+  async updateTacacsServer(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'PUT',
+      `/api/v2/cmdb/user/tacacs+/${encodeURIComponent(name)}`,
+      updates,
+      params
+    );
+  }
+
+  async deleteTacacsServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'DELETE',
+      `/api/v2/cmdb/user/tacacs+/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  // ─── SAML ──────────────────────────────────────────────────
+
+  async getSamlServers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/user/saml', undefined, params);
+  }
+
+  async getSamlServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'GET',
+      `/api/v2/cmdb/user/saml/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  async createSamlServer(saml: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/user/saml', saml, params);
+  }
+
+  async updateSamlServer(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'PUT',
+      `/api/v2/cmdb/user/saml/${encodeURIComponent(name)}`,
+      updates,
+      params
+    );
+  }
+
+  async deleteSamlServer(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'DELETE',
+      `/api/v2/cmdb/user/saml/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  // ─── FortiToken ────────────────────────────────────────────
+
+  async getFortiTokens(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/user/fortitoken', undefined, params);
+  }
+
+  // ─── FSSO ──────────────────────────────────────────────────
+
+  async getFssoPolling(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/user/fsso', undefined, params);
+  }
+
+  async getFssoPollingServer(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'GET',
+      `/api/v2/cmdb/user/fsso/${id}`,
+      undefined,
+      params
+    );
+  }
+
+  async createFssoPolling(fsso: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/user/fsso', fsso, params);
+  }
+
+  async updateFssoPolling(id: number, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/user/fsso/${id}`, updates, params);
+  }
+
+  async deleteFssoPolling(id: number, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/user/fsso/${id}`, undefined, params);
+  }
 }
