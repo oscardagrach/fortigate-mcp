@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 243 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 263 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (243)
+## Available Tools (263)
 
 ### System
 
@@ -632,6 +632,51 @@ npm run dev
 | `get_traffic_logs` | Get recent traffic (forward) logs |
 | `get_event_logs` | Get recent system event logs |
 | `get_security_logs` | Get recent IPS/UTM security logs |
+
+### Log Settings
+
+| Tool | Description |
+|---|---|
+| `get_log_settings` | Get global log configuration settings |
+| `update_log_settings` | Update global log configuration settings |
+| `get_log_event_filter` | Get log event filter (which event types are logged) |
+| `update_log_event_filter` | Update log event filter |
+| `get_log_threat_weight` | Get threat weight scoring configuration |
+| `update_log_threat_weight` | Update threat weight scoring configuration |
+
+### Syslog
+
+| Tool | Description |
+|---|---|
+| `get_syslog_settings` | Get remote syslog server configuration |
+| `update_syslog_settings` | Update remote syslog server settings |
+| `get_syslog_filter` | Get syslog log filter settings |
+| `update_syslog_filter` | Update syslog log filter settings |
+
+### FortiAnalyzer
+
+| Tool | Description |
+|---|---|
+| `get_fortianalyzer_settings` | Get FortiAnalyzer log forwarding configuration |
+| `update_fortianalyzer_settings` | Update FortiAnalyzer log forwarding settings |
+| `get_fortianalyzer_filter` | Get FortiAnalyzer log filter settings |
+| `update_fortianalyzer_filter` | Update FortiAnalyzer log filter settings |
+
+### Log Disk
+
+| Tool | Description |
+|---|---|
+| `get_log_disk_settings` | Get local disk logging settings |
+| `update_log_disk_settings` | Update local disk logging settings |
+| `get_log_disk_filter` | Get local disk log filter settings |
+| `update_log_disk_filter` | Update local disk log filter settings |
+
+### FortiCloud Logging
+
+| Tool | Description |
+|---|---|
+| `get_forticloud_log_settings` | Get FortiCloud log upload settings |
+| `update_forticloud_log_settings` | Update FortiCloud log upload settings |
 
 ### Sessions
 

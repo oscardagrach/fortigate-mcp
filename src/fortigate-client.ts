@@ -306,6 +306,96 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/log/memory/utm/ips', undefined, params);
   }
 
+  // ─── Log Settings ──────────────────────────────────────────
+
+  async getLogSettings() {
+    return this.request('GET', '/api/v2/cmdb/log/setting');
+  }
+
+  async updateLogSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log/setting', settings);
+  }
+
+  async getLogEventFilter() {
+    return this.request('GET', '/api/v2/cmdb/log/eventfilter');
+  }
+
+  async updateLogEventFilter(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log/eventfilter', settings);
+  }
+
+  async getLogThreatWeight() {
+    return this.request('GET', '/api/v2/cmdb/log/threat-weight');
+  }
+
+  async updateLogThreatWeight(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log/threat-weight', settings);
+  }
+
+  // ─── Syslog ───────────────────────────────────────────────
+
+  async getSyslogSettings() {
+    return this.request('GET', '/api/v2/cmdb/log.syslogd/setting');
+  }
+
+  async updateSyslogSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log.syslogd/setting', settings);
+  }
+
+  async getSyslogFilter() {
+    return this.request('GET', '/api/v2/cmdb/log.syslogd/filter');
+  }
+
+  async updateSyslogFilter(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log.syslogd/filter', settings);
+  }
+
+  // ─── FortiAnalyzer ────────────────────────────────────────
+
+  async getFortiAnalyzerSettings() {
+    return this.request('GET', '/api/v2/cmdb/log.fortianalyzer/setting');
+  }
+
+  async updateFortiAnalyzerSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log.fortianalyzer/setting', settings);
+  }
+
+  async getFortiAnalyzerFilter() {
+    return this.request('GET', '/api/v2/cmdb/log.fortianalyzer/filter');
+  }
+
+  async updateFortiAnalyzerFilter(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log.fortianalyzer/filter', settings);
+  }
+
+  // ─── Log Disk ─────────────────────────────────────────────
+
+  async getLogDiskSettings() {
+    return this.request('GET', '/api/v2/cmdb/log.disk/setting');
+  }
+
+  async updateLogDiskSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log.disk/setting', settings);
+  }
+
+  async getLogDiskFilter() {
+    return this.request('GET', '/api/v2/cmdb/log.disk/filter');
+  }
+
+  async updateLogDiskFilter(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log.disk/filter', settings);
+  }
+
+  // ─── FortiCloud Log ───────────────────────────────────────
+
+  async getFortiCloudLogSettings() {
+    return this.request('GET', '/api/v2/cmdb/log.fortiguard/setting');
+  }
+
+  async updateFortiCloudLogSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/log.fortiguard/setting', settings);
+  }
+
   // ─── Session Table ───────────────────────────────────────
 
   async getSessionCount() {

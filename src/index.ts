@@ -582,6 +582,246 @@ server.tool(
   }
 );
 
+// ─── Log Settings Tools ────────────────────────────────────
+
+server.tool('get_log_settings', 'Get global log configuration settings', {}, async () => {
+  try {
+    return result(await client.getLogSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_log_settings',
+  'Update global log configuration settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"faz-override": "enable", "log-invalid-packet": "enable"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateLogSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool('get_log_event_filter', 'Get log event filter configuration (which event types are logged)', {}, async () => {
+  try {
+    return result(await client.getLogEventFilter());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_log_event_filter',
+  'Update log event filter (enable/disable logging for specific event types)',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"vpn": "enable", "router": "enable", "ha": "enable"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateLogEventFilter(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool('get_log_threat_weight', 'Get log threat weight scoring configuration', {}, async () => {
+  try {
+    return result(await client.getLogThreatWeight());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_log_threat_weight',
+  'Update log threat weight scoring configuration',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateLogThreatWeight(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Syslog Tools ──────────────────────────────────────────
+
+server.tool('get_syslog_settings', 'Get remote syslog server configuration', {}, async () => {
+  try {
+    return result(await client.getSyslogSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_syslog_settings',
+  'Update remote syslog server settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "server": "10.0.0.50", "port": 514, "facility": "local7"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateSyslogSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool('get_syslog_filter', 'Get syslog log filter settings (which log types are sent)', {}, async () => {
+  try {
+    return result(await client.getSyslogFilter());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_syslog_filter',
+  'Update syslog log filter settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"severity": "warning", "forward-traffic": "enable"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateSyslogFilter(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── FortiAnalyzer Tools ───────────────────────────────────
+
+server.tool('get_fortianalyzer_settings', 'Get FortiAnalyzer log forwarding configuration', {}, async () => {
+  try {
+    return result(await client.getFortiAnalyzerSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_fortianalyzer_settings',
+  'Update FortiAnalyzer log forwarding settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "server": "10.0.0.100", "upload-option": "realtime"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateFortiAnalyzerSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool('get_fortianalyzer_filter', 'Get FortiAnalyzer log filter settings', {}, async () => {
+  try {
+    return result(await client.getFortiAnalyzerFilter());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_fortianalyzer_filter',
+  'Update FortiAnalyzer log filter settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"severity": "information", "forward-traffic": "enable"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateFortiAnalyzerFilter(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Log Disk Tools ────────────────────────────────────────
+
+server.tool('get_log_disk_settings', 'Get local disk logging settings', {}, async () => {
+  try {
+    return result(await client.getLogDiskSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_log_disk_settings',
+  'Update local disk logging settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "maximum-log-age": 30, "diskfull": "overwrite"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateLogDiskSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool('get_log_disk_filter', 'Get local disk log filter settings', {}, async () => {
+  try {
+    return result(await client.getLogDiskFilter());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_log_disk_filter',
+  'Update local disk log filter settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"severity": "warning", "forward-traffic": "enable"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateLogDiskFilter(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── FortiCloud Log Tools ──────────────────────────────────
+
+server.tool('get_forticloud_log_settings', 'Get FortiCloud (FortiGuard) log upload settings', {}, async () => {
+  try {
+    return result(await client.getFortiCloudLogSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_forticloud_log_settings',
+  'Update FortiCloud (FortiGuard) log upload settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "upload-option": "realtime"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateFortiCloudLogSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Session Tools ─────────────────────────────────────────
 
 server.tool('get_session_count', 'Get firewall session count summary', {}, async () => {
