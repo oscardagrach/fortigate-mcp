@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 308 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 320 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (308)
+## Available Tools (320)
 
 ### System
 
@@ -799,6 +799,23 @@ npm run dev
 |---|---|
 | `get_session_count` | Get firewall session count summary |
 | `get_firewall_sessions` | List active sessions with optional source IP filter |
+
+### Switch Controller (FortiSwitch)
+
+| Tool | Description |
+|---|---|
+| `get_managed_switches` | List all FortiSwitch managed switches |
+| `get_managed_switch` | Get a specific managed switch by serial number |
+| `update_managed_switch` | Update a managed switch configuration |
+| `delete_managed_switch` | Delete (deauthorize) a managed switch |
+| `get_switch_vlans` | List all switch controller VLANs |
+| `create_switch_vlan` | Create a new switch controller VLAN |
+| `delete_switch_vlan` | Delete a switch controller VLAN |
+| `get_switch_stp_settings` | Get STP settings |
+| `update_switch_stp_settings` | Update STP settings |
+| `get_switch_qos_policies` | List all switch QoS policies |
+| `get_switch_qos_dot1p_map` | List all 802.1p priority maps |
+| `get_switch_qos_ip_dscp_map` | List all IP DSCP maps |
 
 ## VDOM Support
 

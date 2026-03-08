@@ -4264,6 +4264,187 @@ server.tool(
   }
 );
 
+// ─── Switch Controller Tools ────────────────────────────────
+
+server.tool(
+  'get_managed_switches',
+  'List all FortiSwitch managed switches',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getManagedSwitches(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_managed_switch',
+  'Get a specific managed FortiSwitch by serial number',
+  {
+    id: z.string().describe('Switch serial number'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.getManagedSwitch(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_managed_switch',
+  'Update a managed FortiSwitch configuration',
+  {
+    id: z.string().describe('Switch serial number'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"name": "SW-Floor1", "switch-profile": "default"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, updates, vdom }) => {
+    try {
+      return result(await client.updateManagedSwitch(id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_managed_switch',
+  'Delete (deauthorize) a managed FortiSwitch by serial number',
+  {
+    id: z.string().describe('Switch serial number to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ id, vdom }) => {
+    try {
+      return result(await client.deleteManagedSwitch(id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_vlans',
+  'List all switch controller VLANs',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSwitchVlans(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_switch_vlan',
+  'Create a new switch controller VLAN',
+  {
+    name: z.string().describe('VLAN name'),
+    vlanid: z.number().describe('VLAN ID'),
+    comment: z.string().optional().describe('Comment'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vlanid, comment, vdom }) => {
+    try {
+      const vlan: Record<string, unknown> = { name, vlanid };
+      if (comment) vlan.comment = comment;
+      return result(await client.createSwitchVlan(vlan, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_switch_vlan',
+  'Delete a switch controller VLAN by name',
+  {
+    name: z.string().describe('VLAN name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteSwitchVlan(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_stp_settings',
+  'Get switch controller STP (Spanning Tree Protocol) settings',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSwitchStpSettings(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_switch_stp_settings',
+  'Update switch controller STP settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "forward-time": 15, "max-age": 20})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateSwitchStpSettings(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_qos_policies',
+  'List all switch controller QoS policies',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSwitchQosPolicies(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_qos_dot1p_map',
+  'List all switch QoS 802.1p priority maps',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSwitchQosDot1pMap(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_switch_qos_ip_dscp_map',
+  'List all switch QoS IP DSCP maps',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSwitchQosIpDscpMap(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Web Proxy Tools ───────────────────────────────────────
 
 server.tool('get_web_proxy_global', 'Get global web proxy settings', {}, async () => {

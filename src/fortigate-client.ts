@@ -1778,6 +1778,80 @@ export class FortigateClient {
     return this.request('DELETE', `/api/v2/cmdb/firewall/shaping-policy/${id}`, undefined, params);
   }
 
+  // ─── Switch Controller ─────────────────────────────────────
+
+  async getManagedSwitches(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/switch-controller/managed-switch', undefined, params);
+  }
+
+  async getManagedSwitch(id: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/switch-controller/managed-switch/${encodeURIComponent(id)}`, undefined, params);
+  }
+
+  async updateManagedSwitch(id: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/switch-controller/managed-switch/${encodeURIComponent(id)}`, updates, params);
+  }
+
+  async deleteManagedSwitch(id: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/switch-controller/managed-switch/${encodeURIComponent(id)}`, undefined, params);
+  }
+
+  async getSwitchVlans(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/switch-controller/vlan', undefined, params);
+  }
+
+  async createSwitchVlan(vlan: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/switch-controller/vlan', vlan, params);
+  }
+
+  async deleteSwitchVlan(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/switch-controller/vlan/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async getSwitchStpSettings(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/switch-controller/stp-settings', undefined, params);
+  }
+
+  async updateSwitchStpSettings(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/switch-controller/stp-settings', updates, params);
+  }
+
+  async getSwitchQosPolicies(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/switch-controller.qos/qos-policy', undefined, params);
+  }
+
+  async getSwitchQosDot1pMap(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/switch-controller.qos/dot1p-map', undefined, params);
+  }
+
+  async getSwitchQosIpDscpMap(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/switch-controller.qos/ip-dscp-map', undefined, params);
+  }
+
   // ─── Web Proxy ─────────────────────────────────────────────
 
   async getWebProxyGlobal() {
