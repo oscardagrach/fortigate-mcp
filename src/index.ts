@@ -1832,6 +1832,518 @@ server.tool(
   }
 );
 
+// ─── Automation Tools ───────────────────────────────────────
+
+server.tool(
+  'get_automation_stitches',
+  'List all automation stitches (event-driven automation rules)',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getAutomationStitches(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_automation_stitch',
+  'Get a specific automation stitch by name',
+  {
+    name: z.string().describe('Automation stitch name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getAutomationStitch(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_automation_stitch',
+  'Create a new automation stitch',
+  {
+    name: z.string().describe('Stitch name'),
+    trigger: z.string().describe('Trigger name'),
+    action: z.array(z.object({ name: z.string() })).describe('List of action objects (e.g., [{"name": "my-action"}])'),
+    status: z.enum(['enable', 'disable']).optional().default('enable').describe('Stitch status'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, trigger, action, status, vdom }) => {
+    try {
+      const stitch: Record<string, unknown> = { name, trigger, action, status };
+      return result(await client.createAutomationStitch(stitch, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_automation_stitch',
+  'Update an existing automation stitch',
+  {
+    name: z.string().describe('Stitch name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateAutomationStitch(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_automation_stitch',
+  'Delete an automation stitch by name',
+  {
+    name: z.string().describe('Stitch name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteAutomationStitch(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_automation_triggers',
+  'List all automation triggers',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getAutomationTriggers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_automation_actions',
+  'List all automation actions',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getAutomationActions(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Virtual Wire Pair Tools ────────────────────────────────
+
+server.tool(
+  'get_virtual_wire_pairs',
+  'List all virtual wire pairs',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getVirtualWirePairs(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_virtual_wire_pair',
+  'Create a new virtual wire pair (Layer 1 bridging between two interfaces)',
+  {
+    name: z.string().describe('Virtual wire pair name'),
+    member: z.array(z.string()).describe('Two interface names to pair (e.g., ["port1", "port2"])'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, member, vdom }) => {
+    try {
+      const pair: Record<string, unknown> = { name, member: member.map(m => ({ 'interface-name': m })) };
+      return result(await client.createVirtualWirePair(pair, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_virtual_wire_pair',
+  'Delete a virtual wire pair by name',
+  {
+    name: z.string().describe('Virtual wire pair name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteVirtualWirePair(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── VDOM Link Tools ───────────────────────────────────────
+
+server.tool('get_vdom_links', 'List all inter-VDOM links', {}, async () => {
+  try {
+    return result(await client.getVdomLinks());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'create_vdom_link',
+  'Create a new inter-VDOM link',
+  {
+    name: z.string().describe('VDOM link name'),
+  },
+  async ({ name }) => {
+    try {
+      return result(await client.createVdomLink({ name }));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_vdom_link',
+  'Delete an inter-VDOM link by name',
+  {
+    name: z.string().describe('VDOM link name to delete'),
+  },
+  async ({ name }) => {
+    try {
+      return result(await client.deleteVdomLink(name));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Session Helper Tools ──────────────────────────────────
+
+server.tool('get_session_helpers', 'List all session helper (ALG) configurations', {}, async () => {
+  try {
+    return result(await client.getSessionHelpers());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_session_helper',
+  'Update a session helper entry by ID',
+  {
+    id: z.number().describe('Session helper ID'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"protocol": 17, "port": 5060})'),
+  },
+  async ({ id, updates }) => {
+    try {
+      return result(await client.updateSessionHelper(id, updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── NetFlow Tools ─────────────────────────────────────────
+
+server.tool('get_netflow_settings', 'Get NetFlow export configuration', {}, async () => {
+  try {
+    return result(await client.getNetflowSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_netflow_settings',
+  'Update NetFlow export configuration',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"collector-ip": "10.0.0.50", "collector-port": 2055, "source-ip": "10.0.0.1"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateNetflowSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── sFlow Tools ───────────────────────────────────────────
+
+server.tool('get_sflow_settings', 'Get sFlow export configuration', {}, async () => {
+  try {
+    return result(await client.getSflowSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_sflow_settings',
+  'Update sFlow export configuration',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"collector-ip": "10.0.0.50", "collector-port": 6343})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateSflowSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── FortiGuard Tools ──────────────────────────────────────
+
+server.tool('get_fortiguard_settings', 'Get FortiGuard update and filtering service settings', {}, async () => {
+  try {
+    return result(await client.getFortiGuardSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_fortiguard_settings',
+  'Update FortiGuard settings (update server, ports, schedules)',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"auto-update": "enable", "update-server-location": "usa"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateFortiGuardSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Security Fabric (CSF) Tools ───────────────────────────
+
+server.tool('get_security_fabric_settings', 'Get Security Fabric (CSF) configuration', {}, async () => {
+  try {
+    return result(await client.getCsfSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_security_fabric_settings',
+  'Update Security Fabric (CSF) settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "upstream-ip": "10.0.0.1"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateCsfSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Central Management Tools ──────────────────────────────
+
+server.tool('get_central_management', 'Get FortiManager central management settings', {}, async () => {
+  try {
+    return result(await client.getCentralManagement());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_central_management',
+  'Update FortiManager central management settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"type": "fortimanager", "fmg": "10.0.0.100"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateCentralManagement(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Link Monitor Tools ────────────────────────────────────
+
+server.tool(
+  'get_link_monitors',
+  'List all WAN link monitors',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getLinkMonitors(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_link_monitor',
+  'Get a specific link monitor by name',
+  {
+    name: z.string().describe('Link monitor name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getLinkMonitor(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_link_monitor',
+  'Create a new link monitor',
+  {
+    name: z.string().describe('Link monitor name'),
+    srcintf: z.string().describe('Source interface'),
+    server: z.array(z.string()).describe('List of monitoring target IPs (e.g., ["8.8.8.8", "1.1.1.1"])'),
+    protocol: z.enum(['ping', 'tcp-echo', 'udp-echo', 'http', 'twamp', 'ping6']).optional().default('ping').describe('Monitoring protocol'),
+    interval: z.number().optional().default(5).describe('Check interval in seconds'),
+    failtime: z.number().optional().default(5).describe('Number of failures before link down'),
+    recoverytime: z.number().optional().default(5).describe('Number of successes before link up'),
+    status: z.enum(['enable', 'disable']).optional().describe('Monitor status'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, srcintf, server, protocol, interval, failtime, recoverytime, status, vdom }) => {
+    try {
+      const monitor: Record<string, unknown> = {
+        name,
+        srcintf,
+        server: server.map(s => ({ address: s })),
+        protocol,
+        interval,
+        failtime,
+        recoverytime,
+        status: status || 'enable',
+      };
+      return result(await client.createLinkMonitor(monitor, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_link_monitor',
+  'Update an existing link monitor',
+  {
+    name: z.string().describe('Link monitor name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateLinkMonitor(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_link_monitor',
+  'Delete a link monitor by name',
+  {
+    name: z.string().describe('Link monitor name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteLinkMonitor(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Object Tagging Tools ──────────────────────────────────
+
+server.tool(
+  'get_object_tags',
+  'List all object tag categories',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getObjectTags(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_object_tag',
+  'Create a new object tag category',
+  {
+    category: z.string().describe('Tag category name'),
+    tags: z.array(z.object({ name: z.string() })).optional().describe('List of tag values (e.g., [{"name": "prod"}, {"name": "dev"}])'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ category, tags, vdom }) => {
+    try {
+      const tag: Record<string, unknown> = { category };
+      if (tags) tag.tags = tags;
+      return result(await client.createObjectTag(tag, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_object_tag',
+  'Delete an object tag category by name',
+  {
+    category: z.string().describe('Tag category name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ category, vdom }) => {
+    try {
+      return result(await client.deleteObjectTag(category, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── Replacement Message Tools ─────────────────────────────
+
+server.tool(
+  'get_replacemsg_groups',
+  'List all custom replacement message groups',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getReplacemsgGroups(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── DHCP Server Tools ───────────────────────────────────────
 
 server.tool(

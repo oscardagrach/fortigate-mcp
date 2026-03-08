@@ -826,6 +826,204 @@ export class FortigateClient {
     return this.request('PUT', '/api/v2/cmdb/system/global', settings);
   }
 
+  // ─── Automation ─────────────────────────────────────────────
+
+  async getAutomationStitches(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/automation-stitch', undefined, params);
+  }
+
+  async getAutomationStitch(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/system/automation-stitch/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createAutomationStitch(stitch: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/system/automation-stitch', stitch, params);
+  }
+
+  async updateAutomationStitch(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/system/automation-stitch/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteAutomationStitch(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/system/automation-stitch/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async getAutomationTriggers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/automation-trigger', undefined, params);
+  }
+
+  async getAutomationActions(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/automation-action', undefined, params);
+  }
+
+  // ─── Virtual Wire Pair ────────────────────────────────────
+
+  async getVirtualWirePairs(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/virtual-wire-pair', undefined, params);
+  }
+
+  async createVirtualWirePair(pair: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/system/virtual-wire-pair', pair, params);
+  }
+
+  async deleteVirtualWirePair(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/system/virtual-wire-pair/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── VDOM Link ────────────────────────────────────────────
+
+  async getVdomLinks() {
+    return this.request('GET', '/api/v2/cmdb/system/vdom-link');
+  }
+
+  async createVdomLink(link: Record<string, unknown>) {
+    return this.request('POST', '/api/v2/cmdb/system/vdom-link', link);
+  }
+
+  async deleteVdomLink(name: string) {
+    return this.request('DELETE', `/api/v2/cmdb/system/vdom-link/${encodeURIComponent(name)}`);
+  }
+
+  // ─── Session Helper ───────────────────────────────────────
+
+  async getSessionHelpers() {
+    return this.request('GET', '/api/v2/cmdb/system/session-helper');
+  }
+
+  async updateSessionHelper(id: number, updates: Record<string, unknown>) {
+    return this.request('PUT', `/api/v2/cmdb/system/session-helper/${id}`, updates);
+  }
+
+  // ─── NetFlow ──────────────────────────────────────────────
+
+  async getNetflowSettings() {
+    return this.request('GET', '/api/v2/cmdb/system/netflow');
+  }
+
+  async updateNetflowSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/system/netflow', settings);
+  }
+
+  // ─── sFlow ────────────────────────────────────────────────
+
+  async getSflowSettings() {
+    return this.request('GET', '/api/v2/cmdb/system/sflow');
+  }
+
+  async updateSflowSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/system/sflow', settings);
+  }
+
+  // ─── FortiGuard ───────────────────────────────────────────
+
+  async getFortiGuardSettings() {
+    return this.request('GET', '/api/v2/cmdb/system/fortiguard');
+  }
+
+  async updateFortiGuardSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/system/fortiguard', settings);
+  }
+
+  // ─── Security Fabric (CSF) ────────────────────────────────
+
+  async getCsfSettings() {
+    return this.request('GET', '/api/v2/cmdb/system/csf');
+  }
+
+  async updateCsfSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/system/csf', settings);
+  }
+
+  // ─── Central Management ───────────────────────────────────
+
+  async getCentralManagement() {
+    return this.request('GET', '/api/v2/cmdb/system/central-management');
+  }
+
+  async updateCentralManagement(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/system/central-management', settings);
+  }
+
+  // ─── Link Monitor ────────────────────────────────────────
+
+  async getLinkMonitors(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/link-monitor', undefined, params);
+  }
+
+  async getLinkMonitor(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/system/link-monitor/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createLinkMonitor(monitor: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/system/link-monitor', monitor, params);
+  }
+
+  async updateLinkMonitor(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/system/link-monitor/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteLinkMonitor(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/system/link-monitor/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── Object Tagging ──────────────────────────────────────
+
+  async getObjectTags(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/object-tagging', undefined, params);
+  }
+
+  async createObjectTag(tag: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/system/object-tagging', tag, params);
+  }
+
+  async deleteObjectTag(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/system/object-tagging/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── Replacement Messages ─────────────────────────────────
+
+  async getReplacemsgGroups(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/replacemsg-group', undefined, params);
+  }
+
   // ─── DHCP Servers ─────────────────────────────────────────
 
   async getDhcpServers(vdom?: string) {

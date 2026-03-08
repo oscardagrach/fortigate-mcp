@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 209 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 243 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (209)
+## Available Tools (243)
 
 ### System
 
@@ -523,6 +523,100 @@ npm run dev
 |---|---|
 | `get_ntp_settings` | Get NTP time synchronization settings |
 | `update_ntp_settings` | Update NTP settings (sync, interval, server mode) |
+
+### Automation
+
+| Tool | Description |
+|---|---|
+| `get_automation_stitches` | List all automation stitches |
+| `get_automation_stitch` | Get a specific automation stitch by name |
+| `create_automation_stitch` | Create a new automation stitch |
+| `update_automation_stitch` | Update an existing automation stitch |
+| `delete_automation_stitch` | Delete an automation stitch by name |
+| `get_automation_triggers` | List all automation triggers |
+| `get_automation_actions` | List all automation actions |
+
+### Virtual Wire Pairs
+
+| Tool | Description |
+|---|---|
+| `get_virtual_wire_pairs` | List all virtual wire pairs |
+| `create_virtual_wire_pair` | Create a new virtual wire pair |
+| `delete_virtual_wire_pair` | Delete a virtual wire pair by name |
+
+### VDOM Links
+
+| Tool | Description |
+|---|---|
+| `get_vdom_links` | List all inter-VDOM links |
+| `create_vdom_link` | Create a new inter-VDOM link |
+| `delete_vdom_link` | Delete an inter-VDOM link by name |
+
+### Session Helpers
+
+| Tool | Description |
+|---|---|
+| `get_session_helpers` | List all session helper (ALG) configurations |
+| `update_session_helper` | Update a session helper entry by ID |
+
+### NetFlow
+
+| Tool | Description |
+|---|---|
+| `get_netflow_settings` | Get NetFlow export configuration |
+| `update_netflow_settings` | Update NetFlow export configuration |
+
+### sFlow
+
+| Tool | Description |
+|---|---|
+| `get_sflow_settings` | Get sFlow export configuration |
+| `update_sflow_settings` | Update sFlow export configuration |
+
+### FortiGuard
+
+| Tool | Description |
+|---|---|
+| `get_fortiguard_settings` | Get FortiGuard update and filtering service settings |
+| `update_fortiguard_settings` | Update FortiGuard settings |
+
+### Security Fabric
+
+| Tool | Description |
+|---|---|
+| `get_security_fabric_settings` | Get Security Fabric (CSF) configuration |
+| `update_security_fabric_settings` | Update Security Fabric settings |
+
+### Central Management
+
+| Tool | Description |
+|---|---|
+| `get_central_management` | Get FortiManager central management settings |
+| `update_central_management` | Update FortiManager central management settings |
+
+### Link Monitor
+
+| Tool | Description |
+|---|---|
+| `get_link_monitors` | List all WAN link monitors |
+| `get_link_monitor` | Get a specific link monitor by name |
+| `create_link_monitor` | Create a new link monitor |
+| `update_link_monitor` | Update an existing link monitor |
+| `delete_link_monitor` | Delete a link monitor by name |
+
+### Object Tagging
+
+| Tool | Description |
+|---|---|
+| `get_object_tags` | List all object tag categories |
+| `create_object_tag` | Create a new object tag category |
+| `delete_object_tag` | Delete an object tag category |
+
+### Replacement Messages
+
+| Tool | Description |
+|---|---|
+| `get_replacemsg_groups` | List all custom replacement message groups |
 
 ### Traffic Shaping
 
