@@ -5873,6 +5873,56 @@ server.tool(
   }
 );
 
+// ─── Monitor: Traffic Top ─────────────────────────────────
+
+server.tool(
+  'get_top_sources',
+  'Get top traffic sources ranked by bytes/packets/sessions',
+  {
+    sort_by: z.string().optional().describe('Sort by field (bytes, packets, sessions)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ sort_by, vdom }) => {
+    try {
+      return result(await client.getTopSources(sort_by, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_top_destinations',
+  'Get top traffic destinations ranked by bytes/packets/sessions',
+  {
+    sort_by: z.string().optional().describe('Sort by field (bytes, packets, sessions)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ sort_by, vdom }) => {
+    try {
+      return result(await client.getTopDestinations(sort_by, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_top_applications',
+  'Get top applications ranked by bytes/packets/sessions',
+  {
+    sort_by: z.string().optional().describe('Sort by field (bytes, packets, sessions)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ sort_by, vdom }) => {
+    try {
+      return result(await client.getTopApplications(sort_by, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {

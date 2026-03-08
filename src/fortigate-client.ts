@@ -2441,4 +2441,27 @@ export class FortigateClient {
     if (vdom) params['vdom'] = vdom;
     return this.request('GET', '/api/v2/monitor/switch-controller/managed-switch/transceivers', undefined, params);
   }
+
+  // ─── Monitor: Traffic Top ─────────────────────────────────
+
+  async getTopSources(sortBy?: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (sortBy) params['sort_by'] = sortBy;
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/firewall/policy/top-sources', undefined, params);
+  }
+
+  async getTopDestinations(sortBy?: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (sortBy) params['sort_by'] = sortBy;
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/firewall/policy/top-destinations', undefined, params);
+  }
+
+  async getTopApplications(sortBy?: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (sortBy) params['sort_by'] = sortBy;
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/firewall/policy/top-applications', undefined, params);
+  }
 }
