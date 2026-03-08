@@ -5956,6 +5956,23 @@ server.tool(
   }
 );
 
+// ─── Monitor: Rogue APs ───────────────────────────────────
+
+server.tool(
+  'get_rogue_aps',
+  'List all detected rogue access points',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getMonitorRogueAPs(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {

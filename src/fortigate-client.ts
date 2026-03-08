@@ -2478,4 +2478,12 @@ export class FortigateClient {
     if (vdom) params['vdom'] = vdom;
     return this.request('GET', `/api/v2/monitor/wifi/client/${encodeURIComponent(mac)}`, undefined, params);
   }
+
+  // ─── Monitor: Rogue APs ───────────────────────────────────
+
+  async getMonitorRogueAPs(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/wifi/rogue_ap', undefined, params);
+  }
 }
