@@ -2900,6 +2900,262 @@ server.tool(
   }
 );
 
+// ─── SSL VPN Portal Tools ───────────────────────────────────
+
+server.tool(
+  'get_ssl_vpn_portals',
+  'List all SSL VPN web portal profiles',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSslVpnPortals(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_ssl_vpn_portal',
+  'Get a specific SSL VPN portal profile by name',
+  {
+    name: z.string().describe('Portal name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getSslVpnPortal(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_ssl_vpn_portal',
+  'Create a new SSL VPN web portal profile',
+  {
+    name: z.string().describe('Portal name'),
+    tunnel_mode: z.enum(['enable', 'disable']).optional().default('enable').describe('Enable tunnel mode'),
+    web_mode: z.enum(['enable', 'disable']).optional().default('disable').describe('Enable web mode'),
+    split_tunneling: z.enum(['enable', 'disable']).optional().default('enable').describe('Enable split tunneling'),
+    split_tunneling_routing_address: z.string().optional().describe('Split tunnel routing address object name'),
+    ip_pools: z.array(z.string()).optional().describe('IP pool names for tunnel mode'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, tunnel_mode, web_mode, split_tunneling, split_tunneling_routing_address, ip_pools, vdom }) => {
+    try {
+      const portal: Record<string, unknown> = {
+        name,
+        'tunnel-mode': tunnel_mode,
+        'web-mode': web_mode,
+        'split-tunneling': split_tunneling,
+      };
+      if (split_tunneling_routing_address) {
+        portal['split-tunneling-routing-address'] = [{ name: split_tunneling_routing_address }];
+      }
+      if (ip_pools) portal['ip-pools'] = ip_pools.map(p => ({ name: p }));
+      return result(await client.createSslVpnPortal(portal, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_ssl_vpn_portal',
+  'Update an existing SSL VPN portal profile',
+  {
+    name: z.string().describe('Portal name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"tunnel-mode": "enable", "web-mode": "disable"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateSslVpnPortal(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_ssl_vpn_portal',
+  'Delete an SSL VPN portal profile by name',
+  {
+    name: z.string().describe('Portal name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteSslVpnPortal(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── SSL VPN Realm Tools ───────────────────────────────────
+
+server.tool(
+  'get_ssl_vpn_realms',
+  'List all SSL VPN authentication realms',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getSslVpnRealms(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_ssl_vpn_realm',
+  'Get a specific SSL VPN realm by name',
+  {
+    name: z.string().describe('Realm name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getSslVpnRealm(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_ssl_vpn_realm',
+  'Create a new SSL VPN realm',
+  {
+    url_path: z.string().describe('URL path for the realm (appended to SSL VPN URL)'),
+    login_page: z.string().optional().describe('Custom login page HTML'),
+    max_concurrent_user: z.number().optional().describe('Maximum concurrent users (0 = unlimited)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ url_path, login_page, max_concurrent_user, vdom }) => {
+    try {
+      const realm: Record<string, unknown> = { 'url-path': url_path };
+      if (login_page) realm['login-page'] = login_page;
+      if (max_concurrent_user !== undefined) realm['max-concurrent-user'] = max_concurrent_user;
+      return result(await client.createSslVpnRealm(realm, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_ssl_vpn_realm',
+  'Update an existing SSL VPN realm',
+  {
+    name: z.string().describe('Realm name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateSslVpnRealm(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_ssl_vpn_realm',
+  'Delete an SSL VPN realm by name',
+  {
+    name: z.string().describe('Realm name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteSslVpnRealm(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── PPTP Tools ────────────────────────────────────────────
+
+server.tool('get_pptp_settings', 'Get PPTP VPN server settings', {}, async () => {
+  try {
+    return result(await client.getPptpSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_pptp_settings',
+  'Update PPTP VPN server settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "sip": "10.0.0.1", "eip": "10.0.0.100"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updatePptpSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── L2TP Tools ────────────────────────────────────────────
+
+server.tool('get_l2tp_settings', 'Get L2TP VPN server settings', {}, async () => {
+  try {
+    return result(await client.getL2tpSettings());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool(
+  'update_l2tp_settings',
+  'Update L2TP VPN server settings',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update (e.g., {"status": "enable", "sip": "10.0.0.1", "eip": "10.0.0.100"})'),
+  },
+  async ({ updates }) => {
+    try {
+      return result(await client.updateL2tpSettings(updates));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// ─── VPN Certificate Tools ─────────────────────────────────
+
+server.tool('get_vpn_certificate_cas', 'List all VPN CA certificates', {}, async () => {
+  try {
+    return result(await client.getVpnCertificateCAs());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool('get_vpn_certificate_remote', 'List all remote VPN certificates', {}, async () => {
+  try {
+    return result(await client.getVpnCertificateRemote());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
+server.tool('get_vpn_certificate_crl', 'List all VPN certificate revocation lists (CRLs)', {}, async () => {
+  try {
+    return result(await client.getVpnCertificateCRL());
+  } catch (e) {
+    return errorResult(e);
+  }
+});
+
 // ─── IPv6 Firewall Policy Tools ─────────────────────────────
 
 server.tool(

@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 263 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 280 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (263)
+## Available Tools (280)
 
 ### System
 
@@ -399,6 +399,48 @@ npm run dev
 | `get_ipsec_phase2` | List IPsec Phase 2 interface configurations |
 | `get_ssl_vpn_status` | Get SSL VPN sessions and connected users |
 | `get_ssl_vpn_settings` | Get SSL VPN server settings |
+
+### SSL VPN Portals
+
+| Tool | Description |
+|---|---|
+| `get_ssl_vpn_portals` | List all SSL VPN web portal profiles |
+| `get_ssl_vpn_portal` | Get a specific SSL VPN portal profile by name |
+| `create_ssl_vpn_portal` | Create a new SSL VPN portal profile |
+| `update_ssl_vpn_portal` | Update an existing SSL VPN portal profile |
+| `delete_ssl_vpn_portal` | Delete an SSL VPN portal profile by name |
+
+### SSL VPN Realms
+
+| Tool | Description |
+|---|---|
+| `get_ssl_vpn_realms` | List all SSL VPN authentication realms |
+| `get_ssl_vpn_realm` | Get a specific SSL VPN realm by name |
+| `create_ssl_vpn_realm` | Create a new SSL VPN realm |
+| `update_ssl_vpn_realm` | Update an existing SSL VPN realm |
+| `delete_ssl_vpn_realm` | Delete an SSL VPN realm by name |
+
+### PPTP
+
+| Tool | Description |
+|---|---|
+| `get_pptp_settings` | Get PPTP VPN server settings |
+| `update_pptp_settings` | Update PPTP VPN server settings |
+
+### L2TP
+
+| Tool | Description |
+|---|---|
+| `get_l2tp_settings` | Get L2TP VPN server settings |
+| `update_l2tp_settings` | Update L2TP VPN server settings |
+
+### VPN Certificates
+
+| Tool | Description |
+|---|---|
+| `get_vpn_certificate_cas` | List all VPN CA certificates |
+| `get_vpn_certificate_remote` | List all remote VPN certificates |
+| `get_vpn_certificate_crl` | List all VPN certificate revocation lists |
 
 ### Security Profiles
 

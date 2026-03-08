@@ -1256,6 +1256,104 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/cmdb/vpn.ssl/settings', undefined, params);
   }
 
+  // ─── SSL VPN Portal ────────────────────────────────────────
+
+  async getSslVpnPortals(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/vpn.ssl.web/portal', undefined, params);
+  }
+
+  async getSslVpnPortal(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/vpn.ssl.web/portal/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createSslVpnPortal(portal: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/vpn.ssl.web/portal', portal, params);
+  }
+
+  async updateSslVpnPortal(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/vpn.ssl.web/portal/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteSslVpnPortal(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/vpn.ssl.web/portal/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── SSL VPN Realm ────────────────────────────────────────
+
+  async getSslVpnRealms(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/vpn.ssl.web/realm', undefined, params);
+  }
+
+  async getSslVpnRealm(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/vpn.ssl.web/realm/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createSslVpnRealm(realm: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/vpn.ssl.web/realm', realm, params);
+  }
+
+  async updateSslVpnRealm(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/vpn.ssl.web/realm/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteSslVpnRealm(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/vpn.ssl.web/realm/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // ─── PPTP ─────────────────────────────────────────────────
+
+  async getPptpSettings() {
+    return this.request('GET', '/api/v2/cmdb/vpn.pptp/pptp');
+  }
+
+  async updatePptpSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/vpn.pptp/pptp', settings);
+  }
+
+  // ─── L2TP ─────────────────────────────────────────────────
+
+  async getL2tpSettings() {
+    return this.request('GET', '/api/v2/cmdb/vpn.l2tp/l2tp');
+  }
+
+  async updateL2tpSettings(settings: Record<string, unknown>) {
+    return this.request('PUT', '/api/v2/cmdb/vpn.l2tp/l2tp', settings);
+  }
+
+  // ─── VPN Certificate ─────────────────────────────────────
+
+  async getVpnCertificateCAs() {
+    return this.request('GET', '/api/v2/cmdb/vpn.certificate/ca');
+  }
+
+  async getVpnCertificateRemote() {
+    return this.request('GET', '/api/v2/cmdb/vpn.certificate/remote');
+  }
+
+  async getVpnCertificateCRL() {
+    return this.request('GET', '/api/v2/cmdb/vpn.certificate/crl');
+  }
+
   // ─── IPv6 Firewall Policies ─────────────────────────────────
 
   async getFirewallPolicies6(vdom?: string) {
