@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 333 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 361 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (333)
+## Available Tools (361)
 
 ### System
 
@@ -834,6 +834,39 @@ npm run dev
 | `delete_wireless_ssid` | Delete a wireless SSID (VAP) |
 | `get_wids_profiles` | List all Wireless IDS profiles |
 | `get_wids_profile` | Get a specific Wireless IDS profile |
+
+### WAN Optimization
+
+| Tool | Description |
+|---|---|
+| `get_wanopt_profiles` | List all WAN optimization profiles |
+| `get_wanopt_profile` | Get a specific WAN optimization profile |
+| `create_wanopt_profile` | Create a WAN optimization profile (HTTP, FTP, CIFS, MAPI, TCP) |
+| `update_wanopt_profile` | Update a WAN optimization profile |
+| `delete_wanopt_profile` | Delete a WAN optimization profile |
+| `get_wanopt_peers` | List all WAN optimization peers |
+| `get_wanopt_peer` | Get a specific WAN optimization peer |
+| `create_wanopt_peer` | Create a WAN optimization peer |
+| `update_wanopt_peer` | Update a WAN optimization peer |
+| `delete_wanopt_peer` | Delete a WAN optimization peer |
+| `get_wanopt_auth_groups` | List all WAN optimization auth groups |
+| `get_wanopt_auth_group` | Get a specific WAN optimization auth group |
+| `create_wanopt_auth_group` | Create a WAN optimization auth group |
+| `update_wanopt_auth_group` | Update a WAN optimization auth group |
+| `delete_wanopt_auth_group` | Delete a WAN optimization auth group |
+| `get_wanopt_cdn_rules` | List all WAN optimization CDN rules |
+| `get_wanopt_cdn_rule` | Get a specific WAN optimization CDN rule |
+| `create_wanopt_cdn_rule` | Create a WAN optimization CDN rule |
+| `update_wanopt_cdn_rule` | Update a WAN optimization CDN rule |
+| `delete_wanopt_cdn_rule` | Delete a WAN optimization CDN rule |
+| `get_wanopt_cache_service` | Get WAN optimization cache service settings |
+| `update_wanopt_cache_service` | Update WAN optimization cache service settings |
+| `get_wanopt_webcache` | Get WAN optimization web cache settings |
+| `update_wanopt_webcache` | Update WAN optimization web cache settings |
+| `get_wanopt_remote_storage` | Get WAN optimization remote storage settings |
+| `update_wanopt_remote_storage` | Update WAN optimization remote storage settings |
+| `get_wanopt_settings` | Get global WAN optimization settings |
+| `update_wanopt_settings` | Update global WAN optimization settings |
 
 ## VDOM Support
 

@@ -5321,6 +5321,479 @@ server.tool(
   }
 );
 
+// ─── WAN Optimization ──────────────────────────────────────
+
+// Profiles
+server.tool(
+  'get_wanopt_profiles',
+  'List all WAN optimization profiles',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWanoptProfiles(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wanopt_profile',
+  'Get a specific WAN optimization profile by name',
+  {
+    name: z.string().describe('Profile name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getWanoptProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_wanopt_profile',
+  'Create a new WAN optimization profile with per-protocol settings (HTTP, FTP, CIFS, MAPI, TCP)',
+  {
+    name: z.string().describe('Profile name'),
+    transparent: z.string().optional().describe('Enable/disable transparent mode (enable/disable)'),
+    comments: z.string().optional().describe('Profile comments'),
+    http: z.record(z.unknown()).optional().describe('HTTP optimization settings'),
+    ftp: z.record(z.unknown()).optional().describe('FTP optimization settings'),
+    cifs: z.record(z.unknown()).optional().describe('CIFS optimization settings'),
+    mapi: z.record(z.unknown()).optional().describe('MAPI optimization settings'),
+    tcp: z.record(z.unknown()).optional().describe('TCP optimization settings'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom, ...profileData }) => {
+    try {
+      return result(await client.createWanoptProfile(profileData, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wanopt_profile',
+  'Update a WAN optimization profile',
+  {
+    name: z.string().describe('Profile name to update'),
+    updates: z.record(z.unknown()).describe('Fields to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateWanoptProfile(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_wanopt_profile',
+  'Delete a WAN optimization profile',
+  {
+    name: z.string().describe('Profile name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteWanoptProfile(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// Peers
+server.tool(
+  'get_wanopt_peers',
+  'List all WAN optimization peers',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWanoptPeers(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wanopt_peer',
+  'Get a specific WAN optimization peer by host ID',
+  {
+    peer_host_id: z.string().describe('Peer host ID'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ peer_host_id, vdom }) => {
+    try {
+      return result(await client.getWanoptPeer(peer_host_id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_wanopt_peer',
+  'Create a new WAN optimization peer',
+  {
+    peer_host_id: z.string().describe('Peer host ID'),
+    ip: z.string().describe('Peer IP address'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom, ...peerData }) => {
+    try {
+      return result(await client.createWanoptPeer(peerData, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wanopt_peer',
+  'Update a WAN optimization peer',
+  {
+    peer_host_id: z.string().describe('Peer host ID to update'),
+    updates: z.record(z.unknown()).describe('Fields to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ peer_host_id, updates, vdom }) => {
+    try {
+      return result(await client.updateWanoptPeer(peer_host_id, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_wanopt_peer',
+  'Delete a WAN optimization peer',
+  {
+    peer_host_id: z.string().describe('Peer host ID to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ peer_host_id, vdom }) => {
+    try {
+      return result(await client.deleteWanoptPeer(peer_host_id, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// Auth Groups
+server.tool(
+  'get_wanopt_auth_groups',
+  'List all WAN optimization authentication groups',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWanoptAuthGroups(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wanopt_auth_group',
+  'Get a specific WAN optimization authentication group',
+  {
+    name: z.string().describe('Auth group name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getWanoptAuthGroup(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_wanopt_auth_group',
+  'Create a new WAN optimization authentication group',
+  {
+    name: z.string().describe('Auth group name'),
+    auth_method: z.string().optional().describe('Authentication method (cert/psk)'),
+    psk: z.string().optional().describe('Pre-shared key'),
+    cert: z.string().optional().describe('Certificate name'),
+    peer_accept: z.string().optional().describe('Peer acceptance (any/defined/one)'),
+    peer: z.string().optional().describe('Peer name if peer_accept is "one"'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom, ...authGroupData }) => {
+    try {
+      return result(await client.createWanoptAuthGroup(authGroupData, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wanopt_auth_group',
+  'Update a WAN optimization authentication group',
+  {
+    name: z.string().describe('Auth group name to update'),
+    updates: z.record(z.unknown()).describe('Fields to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateWanoptAuthGroup(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_wanopt_auth_group',
+  'Delete a WAN optimization authentication group',
+  {
+    name: z.string().describe('Auth group name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteWanoptAuthGroup(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// CDN Rules
+server.tool(
+  'get_wanopt_cdn_rules',
+  'List all WAN optimization content delivery network rules',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWanoptCdnRules(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_wanopt_cdn_rule',
+  'Get a specific WAN optimization CDN rule',
+  {
+    name: z.string().describe('CDN rule name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getWanoptCdnRule(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_wanopt_cdn_rule',
+  'Create a new WAN optimization CDN rule',
+  {
+    name: z.string().describe('CDN rule name'),
+    status: z.string().optional().describe('Status (enable/disable)'),
+    category: z.string().optional().describe('Category (vcache/youtube)'),
+    request_cache_control: z.string().optional().describe('Request cache control (enable/disable)'),
+    response_cache_control: z.string().optional().describe('Response cache control (enable/disable)'),
+    response_expires: z.string().optional().describe('Response expires (enable/disable)'),
+    rules: z.array(z.record(z.unknown())).optional().describe('CDN rules array'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom, ...ruleData }) => {
+    try {
+      return result(await client.createWanoptCdnRule(ruleData, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wanopt_cdn_rule',
+  'Update a WAN optimization CDN rule',
+  {
+    name: z.string().describe('CDN rule name to update'),
+    updates: z.record(z.unknown()).describe('Fields to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateWanoptCdnRule(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_wanopt_cdn_rule',
+  'Delete a WAN optimization CDN rule',
+  {
+    name: z.string().describe('CDN rule name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteWanoptCdnRule(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// Cache Service (singleton)
+server.tool(
+  'get_wanopt_cache_service',
+  'Get WAN optimization cache service settings',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWanoptCacheService(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wanopt_cache_service',
+  'Update WAN optimization cache service settings',
+  {
+    updates: z.record(z.unknown()).describe('Cache service settings to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateWanoptCacheService(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// Web Cache (singleton)
+server.tool(
+  'get_wanopt_webcache',
+  'Get WAN optimization web cache settings',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWanoptWebcache(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wanopt_webcache',
+  'Update WAN optimization web cache settings (TTL, object size, caching behavior)',
+  {
+    updates: z.record(z.unknown()).describe('Web cache settings to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateWanoptWebcache(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// Remote Storage (singleton)
+server.tool(
+  'get_wanopt_remote_storage',
+  'Get WAN optimization remote storage settings',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWanoptRemoteStorage(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wanopt_remote_storage',
+  'Update WAN optimization remote storage settings',
+  {
+    updates: z.record(z.unknown()).describe('Remote storage settings to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateWanoptRemoteStorage(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+// Settings (singleton)
+server.tool(
+  'get_wanopt_settings',
+  'Get global WAN optimization settings',
+  {
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getWanoptSettings(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_wanopt_settings',
+  'Update global WAN optimization settings (host ID, tunnel SSL, auto-detect algorithm)',
+  {
+    updates: z.record(z.unknown()).describe('WAN optimization settings to update'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateWanoptSettings(updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {

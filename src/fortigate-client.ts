@@ -2230,4 +2230,182 @@ export class FortigateClient {
     if (vdom) params['vdom'] = vdom;
     return this.request('DELETE', `/api/v2/cmdb/user/fsso/${id}`, undefined, params);
   }
+
+  // ─── WAN Optimization ──────────────────────────────────────
+
+  // Profiles
+  async getWanoptProfiles(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wanopt/profile', undefined, params);
+  }
+
+  async getWanoptProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/wanopt/profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createWanoptProfile(profile: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/wanopt/profile', profile, params);
+  }
+
+  async updateWanoptProfile(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/wanopt/profile/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteWanoptProfile(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/wanopt/profile/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // Peers
+  async getWanoptPeers(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wanopt/peer', undefined, params);
+  }
+
+  async getWanoptPeer(peerHostId: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/wanopt/peer/${encodeURIComponent(peerHostId)}`, undefined, params);
+  }
+
+  async createWanoptPeer(peer: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/wanopt/peer', peer, params);
+  }
+
+  async updateWanoptPeer(peerHostId: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/wanopt/peer/${encodeURIComponent(peerHostId)}`, updates, params);
+  }
+
+  async deleteWanoptPeer(peerHostId: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/wanopt/peer/${encodeURIComponent(peerHostId)}`, undefined, params);
+  }
+
+  // Auth Groups
+  async getWanoptAuthGroups(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wanopt/auth-group', undefined, params);
+  }
+
+  async getWanoptAuthGroup(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/wanopt/auth-group/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createWanoptAuthGroup(authGroup: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/wanopt/auth-group', authGroup, params);
+  }
+
+  async updateWanoptAuthGroup(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/wanopt/auth-group/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteWanoptAuthGroup(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/wanopt/auth-group/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // CDN Rules
+  async getWanoptCdnRules(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wanopt/content-delivery-network-rule', undefined, params);
+  }
+
+  async getWanoptCdnRule(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/wanopt/content-delivery-network-rule/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createWanoptCdnRule(rule: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/wanopt/content-delivery-network-rule', rule, params);
+  }
+
+  async updateWanoptCdnRule(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/wanopt/content-delivery-network-rule/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteWanoptCdnRule(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/wanopt/content-delivery-network-rule/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  // Cache Service (singleton)
+  async getWanoptCacheService(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wanopt/cache-service', undefined, params);
+  }
+
+  async updateWanoptCacheService(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/wanopt/cache-service', updates, params);
+  }
+
+  // Web Cache (singleton)
+  async getWanoptWebcache(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wanopt/webcache', undefined, params);
+  }
+
+  async updateWanoptWebcache(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/wanopt/webcache', updates, params);
+  }
+
+  // Remote Storage (singleton)
+  async getWanoptRemoteStorage(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wanopt/remote-storage', undefined, params);
+  }
+
+  async updateWanoptRemoteStorage(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/wanopt/remote-storage', updates, params);
+  }
+
+  // Settings (singleton)
+  async getWanoptSettings(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/wanopt/settings', undefined, params);
+  }
+
+  async updateWanoptSettings(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/wanopt/settings', updates, params);
+  }
 }
