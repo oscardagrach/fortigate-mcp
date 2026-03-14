@@ -2507,6 +2507,65 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/monitor/system/security-rating/status', undefined, params);
   }
 
+  // ─── External Threat Feeds (External Resources) ─────────
+
+  async getExternalResources(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/cmdb/system/external-resource', undefined, params);
+  }
+
+  async getExternalResource(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'GET',
+      `/api/v2/cmdb/system/external-resource/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  async createExternalResource(resource: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/system/external-resource', resource, params);
+  }
+
+  async updateExternalResource(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'PUT',
+      `/api/v2/cmdb/system/external-resource/${encodeURIComponent(name)}`,
+      updates,
+      params
+    );
+  }
+
+  async deleteExternalResource(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request(
+      'DELETE',
+      `/api/v2/cmdb/system/external-resource/${encodeURIComponent(name)}`,
+      undefined,
+      params
+    );
+  }
+
+  async getExternalResourceStatus(vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', '/api/v2/monitor/system/external-resource/entry-list', undefined, params);
+  }
+
+  async refreshExternalResource(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/monitor/system/external-resource/refresh', { mkey: name }, params);
+  }
+
   // ─── Monitor: FortiGuard ──────────────────────────────────
 
   async getFortiGuardServerList() {

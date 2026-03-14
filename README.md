@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 377 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 384 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, external threat feeds, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (377)
+## Available Tools (384)
 
 ### System
 
@@ -906,6 +906,18 @@ npm run dev
 | `update_wanopt_remote_storage` | Update WAN optimization remote storage settings |
 | `get_wanopt_settings` | Get global WAN optimization settings |
 | `update_wanopt_settings` | Update global WAN optimization settings |
+
+### External Threat Feeds
+
+| Tool | Description |
+|---|---|
+| `get_external_threat_feeds` | List all external threat feed connectors |
+| `get_external_threat_feed` | Get a specific external threat feed by name |
+| `create_external_threat_feed` | Create a new external threat feed (IP, domain, URL category, or malware hash) |
+| `update_external_threat_feed` | Update an existing external threat feed |
+| `delete_external_threat_feed` | Delete an external threat feed by name |
+| `get_external_threat_feed_status` | Get status and loaded entries for all threat feeds |
+| `refresh_external_threat_feed` | Force immediate refresh of a threat feed |
 
 ### Monitor: FortiGuard
 

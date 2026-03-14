@@ -6048,6 +6048,130 @@ server.tool(
   }
 );
 
+// ─── External Threat Feed Tools ───────────────────────────
+
+server.tool(
+  'get_external_threat_feeds',
+  'List all external threat feed (external resource) connectors configured on the FortiGate',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getExternalResources(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_external_threat_feed',
+  'Get details for a specific external threat feed by name',
+  {
+    name: z.string().describe('External threat feed name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getExternalResource(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_external_threat_feed',
+  'Create a new external threat feed connector. Supports IP, domain, URL category, and malware hash feeds from external servers.',
+  {
+    name: z.string().describe('Threat feed name'),
+    type: z.enum(['category', 'address', 'domain', 'malware']).describe('Feed type: address (IP list), domain (domain list), category (URL category list), malware (malware hash list)'),
+    resource: z.string().describe('URI of the external resource (e.g., https://threat-intel.example.com/blocked-ips.txt)'),
+    refresh_rate: z.number().optional().describe('Refresh interval in minutes (default: 5, range: 1-43200)'),
+    username: z.string().optional().describe('HTTP basic auth username if the feed requires authentication'),
+    password: z.string().optional().describe('HTTP basic auth password if the feed requires authentication'),
+    status: z.enum(['enable', 'disable']).optional().describe('Enable or disable the feed (default: enable)'),
+    comments: z.string().optional().describe('Comment or description'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, type, resource, refresh_rate, username, password, status, comments, vdom }) => {
+    try {
+      const feed: Record<string, unknown> = { name, type, resource };
+      if (refresh_rate !== undefined) feed['refresh-rate'] = refresh_rate;
+      if (username) feed['username'] = username;
+      if (password) feed['password'] = password;
+      if (status) feed['status'] = status;
+      if (comments) feed['comments'] = comments;
+      return result(await client.createExternalResource(feed, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_external_threat_feed',
+  'Update an existing external threat feed connector',
+  {
+    name: z.string().describe('Threat feed name to update'),
+    updates: z
+      .record(z.unknown())
+      .describe('Key-value pairs to update (e.g., {"resource": "https://new-url.com/feed.txt", "refresh-rate": 10, "status": "enable"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateExternalResource(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_external_threat_feed',
+  'Delete an external threat feed connector by name',
+  {
+    name: z.string().describe('Threat feed name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteExternalResource(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'get_external_threat_feed_status',
+  'Get the current status and loaded entries for all external threat feeds (shows last refresh time, entry count, and validity)',
+  { vdom: z.string().optional().describe('Virtual domain name (optional)') },
+  async ({ vdom }) => {
+    try {
+      return result(await client.getExternalResourceStatus(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'refresh_external_threat_feed',
+  'Force an immediate refresh/re-download of a specific external threat feed',
+  {
+    name: z.string().describe('Threat feed name to refresh'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.refreshExternalResource(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
 // ─── Start Server ──────────────────────────────────────────
 
 async function main() {
