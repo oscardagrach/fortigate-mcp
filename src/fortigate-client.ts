@@ -1356,16 +1356,70 @@ export class FortigateClient {
     return this.request('GET', '/api/v2/cmdb/vpn.ipsec/phase1-interface', undefined, params);
   }
 
+  async getIpsecPhase1ByName(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/vpn.ipsec/phase1-interface/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createIpsecPhase1(config: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/vpn.ipsec/phase1-interface', config, params);
+  }
+
+  async updateIpsecPhase1(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/vpn.ipsec/phase1-interface/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteIpsecPhase1(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/vpn.ipsec/phase1-interface/${encodeURIComponent(name)}`, undefined, params);
+  }
+
   async getIpsecPhase2(vdom?: string) {
     const params: Record<string, string> = {};
     if (vdom) params['vdom'] = vdom;
     return this.request('GET', '/api/v2/cmdb/vpn.ipsec/phase2-interface', undefined, params);
   }
 
+  async getIpsecPhase2ByName(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('GET', `/api/v2/cmdb/vpn.ipsec/phase2-interface/${encodeURIComponent(name)}`, undefined, params);
+  }
+
+  async createIpsecPhase2(config: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('POST', '/api/v2/cmdb/vpn.ipsec/phase2-interface', config, params);
+  }
+
+  async updateIpsecPhase2(name: string, updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', `/api/v2/cmdb/vpn.ipsec/phase2-interface/${encodeURIComponent(name)}`, updates, params);
+  }
+
+  async deleteIpsecPhase2(name: string, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('DELETE', `/api/v2/cmdb/vpn.ipsec/phase2-interface/${encodeURIComponent(name)}`, undefined, params);
+  }
+
   async getSslVpnSettings(vdom?: string) {
     const params: Record<string, string> = {};
     if (vdom) params['vdom'] = vdom;
     return this.request('GET', '/api/v2/cmdb/vpn.ssl/settings', undefined, params);
+  }
+
+  async updateSslVpnSettings(updates: Record<string, unknown>, vdom?: string) {
+    const params: Record<string, string> = {};
+    if (vdom) params['vdom'] = vdom;
+    return this.request('PUT', '/api/v2/cmdb/vpn.ssl/settings', updates, params);
   }
 
   // ─── SSL VPN Portal ────────────────────────────────────────

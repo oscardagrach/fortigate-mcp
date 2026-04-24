@@ -3117,6 +3117,87 @@ server.tool(
 );
 
 server.tool(
+  'get_ipsec_phase1_by_name',
+  'Get a specific IPsec Phase 1 interface configuration by name',
+  {
+    name: z.string().describe('Phase 1 interface name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getIpsecPhase1ByName(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_ipsec_phase1',
+  'Create a new IPsec VPN Phase 1 interface (IKE gateway). Pass additional FortiOS phase1-interface fields (e.g., "remote-gw", "psksecret", "proposal", "ike-version", "peertype", "authmethod", "dhgrp") via config.',
+  {
+    name: z.string().describe('Phase 1 interface name'),
+    interface: z.string().optional().describe('Local outbound interface (e.g., "wan1")'),
+    remote_gw: z.string().optional().describe('Remote gateway IP address'),
+    psksecret: z.string().optional().describe('Pre-shared key (for authmethod=psk)'),
+    ike_version: z.enum(['1', '2']).optional().describe('IKE protocol version'),
+    proposal: z.string().optional().describe('Phase 1 proposal, space-separated (e.g., "aes256-sha256 aes128-sha1")'),
+    peertype: z.enum(['any', 'one', 'dialup', 'peer', 'peergrp']).optional().describe('Peer type'),
+    authmethod: z.enum(['psk', 'signature']).optional().describe('Authentication method'),
+    config: z.record(z.unknown()).optional().describe('Additional phase1-interface fields as key-value pairs (FortiOS field names with hyphens)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, interface: iface, remote_gw, psksecret, ike_version, proposal, peertype, authmethod, config, vdom }) => {
+    try {
+      const body: Record<string, unknown> = { name, ...(config ?? {}) };
+      if (iface !== undefined) body['interface'] = iface;
+      if (remote_gw !== undefined) body['remote-gw'] = remote_gw;
+      if (psksecret !== undefined) body['psksecret'] = psksecret;
+      if (ike_version !== undefined) body['ike-version'] = ike_version;
+      if (proposal !== undefined) body['proposal'] = proposal;
+      if (peertype !== undefined) body['peertype'] = peertype;
+      if (authmethod !== undefined) body['authmethod'] = authmethod;
+      return result(await client.createIpsecPhase1(body, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_ipsec_phase1',
+  'Update an existing IPsec Phase 1 interface configuration',
+  {
+    name: z.string().describe('Phase 1 interface name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update using FortiOS field names (e.g., {"remote-gw": "1.2.3.4", "psksecret": "newkey", "proposal": "aes256-sha256"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateIpsecPhase1(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_ipsec_phase1',
+  'Delete an IPsec Phase 1 interface by name',
+  {
+    name: z.string().describe('Phase 1 interface name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteIpsecPhase1(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
   'get_ipsec_phase2',
   'List IPsec VPN Phase 2 interface configurations',
   { vdom: z.string().optional().describe('Virtual domain name (optional)') },
@@ -3130,12 +3211,104 @@ server.tool(
 );
 
 server.tool(
+  'get_ipsec_phase2_by_name',
+  'Get a specific IPsec Phase 2 interface configuration by name',
+  {
+    name: z.string().describe('Phase 2 interface name'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.getIpsecPhase2ByName(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'create_ipsec_phase2',
+  'Create a new IPsec VPN Phase 2 interface (IPsec SA) bound to an existing Phase 1. Pass additional phase2-interface fields (e.g., "src-subnet", "dst-subnet", "proposal", "pfs", "dhgrp") via config.',
+  {
+    name: z.string().describe('Phase 2 interface name'),
+    phase1name: z.string().describe('Parent Phase 1 interface name'),
+    proposal: z.string().optional().describe('Phase 2 proposal, space-separated (e.g., "aes256-sha256 aes128-sha1")'),
+    src_subnet: z.string().optional().describe('Local subnet (e.g., "10.0.0.0 255.255.255.0")'),
+    dst_subnet: z.string().optional().describe('Remote subnet (e.g., "10.1.0.0 255.255.255.0")'),
+    pfs: z.enum(['enable', 'disable']).optional().describe('Enable Perfect Forward Secrecy'),
+    config: z.record(z.unknown()).optional().describe('Additional phase2-interface fields as key-value pairs (FortiOS field names with hyphens)'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, phase1name, proposal, src_subnet, dst_subnet, pfs, config, vdom }) => {
+    try {
+      const body: Record<string, unknown> = { name, phase1name, ...(config ?? {}) };
+      if (proposal !== undefined) body['proposal'] = proposal;
+      if (src_subnet !== undefined) body['src-subnet'] = src_subnet;
+      if (dst_subnet !== undefined) body['dst-subnet'] = dst_subnet;
+      if (pfs !== undefined) body['pfs'] = pfs;
+      return result(await client.createIpsecPhase2(body, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_ipsec_phase2',
+  'Update an existing IPsec Phase 2 interface configuration',
+  {
+    name: z.string().describe('Phase 2 interface name'),
+    updates: z.record(z.unknown()).describe('Key-value pairs to update using FortiOS field names (e.g., {"src-subnet": "10.0.0.0 255.255.255.0", "proposal": "aes256-sha256"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, updates, vdom }) => {
+    try {
+      return result(await client.updateIpsecPhase2(name, updates, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'delete_ipsec_phase2',
+  'Delete an IPsec Phase 2 interface by name',
+  {
+    name: z.string().describe('Phase 2 interface name to delete'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ name, vdom }) => {
+    try {
+      return result(await client.deleteIpsecPhase2(name, vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
   'get_ssl_vpn_settings',
   'Get SSL VPN server settings (portal, tunnel, authentication)',
   { vdom: z.string().optional().describe('Virtual domain name (optional)') },
   async ({ vdom }) => {
     try {
       return result(await client.getSslVpnSettings(vdom));
+    } catch (e) {
+      return errorResult(e);
+    }
+  }
+);
+
+server.tool(
+  'update_ssl_vpn_settings',
+  'Update SSL VPN server settings (e.g., status, port, servercert, tunnel-ip-pools, source-interface)',
+  {
+    updates: z.record(z.unknown()).describe('Key-value pairs to update using FortiOS field names (e.g., {"status": "enable", "port": 10443, "servercert": "Fortinet_Factory"})'),
+    vdom: z.string().optional().describe('Virtual domain name (optional)'),
+  },
+  async ({ updates, vdom }) => {
+    try {
+      return result(await client.updateSslVpnSettings(updates, vdom));
     } catch (e) {
       return errorResult(e);
     }

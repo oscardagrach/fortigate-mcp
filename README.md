@@ -1,6 +1,6 @@
 # fortigate-mcp
 
-An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 384 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, external threat feeds, monitoring, and more.
+An MCP (Model Context Protocol) server for managing FortiGate firewalls via the FortiOS REST API. Provides 393 tools covering system management, firewall policies, routing, VPN, security profiles, user authentication, DNS, external threat feeds, monitoring, and more.
 
 ## Requirements
 
@@ -85,7 +85,7 @@ FORTIGATE_VERIFY_SSL=false \
 npm run dev
 ```
 
-## Available Tools (384)
+## Available Tools (393)
 
 ### System
 
@@ -396,9 +396,18 @@ npm run dev
 |---|---|
 | `get_ipsec_vpn_status` | Get IPsec VPN tunnel status and statistics |
 | `get_ipsec_phase1` | List IPsec Phase 1 interface configurations |
+| `get_ipsec_phase1_by_name` | Get a specific IPsec Phase 1 interface by name |
+| `create_ipsec_phase1` | Create a new IPsec Phase 1 interface (IKE gateway) |
+| `update_ipsec_phase1` | Update an existing IPsec Phase 1 interface |
+| `delete_ipsec_phase1` | Delete an IPsec Phase 1 interface by name |
 | `get_ipsec_phase2` | List IPsec Phase 2 interface configurations |
+| `get_ipsec_phase2_by_name` | Get a specific IPsec Phase 2 interface by name |
+| `create_ipsec_phase2` | Create a new IPsec Phase 2 interface (IPsec SA) |
+| `update_ipsec_phase2` | Update an existing IPsec Phase 2 interface |
+| `delete_ipsec_phase2` | Delete an IPsec Phase 2 interface by name |
 | `get_ssl_vpn_status` | Get SSL VPN sessions and connected users |
 | `get_ssl_vpn_settings` | Get SSL VPN server settings |
+| `update_ssl_vpn_settings` | Update SSL VPN server settings |
 
 ### SSL VPN Portals
 
